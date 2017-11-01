@@ -27,13 +27,8 @@
             </thead>
             <tbody>
                 <tr class="thead-default">
-                    <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
-                    <s:url var="backDir" action="files">
-                        <s:param name="path" value="C:\\Users\\Débora\\Desktop"/>
-                    </s:url>
-                    <s:a href="%{backDir}">
-                       <td colspan="2">...</td>
-                    </s:a>               
+                        <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                        <td colspan="2"><a href="javascript:history.back()">...</a></td>            
                 </tr>            
                 <s:iterator value="files" var="f">
                     <tr>
@@ -50,7 +45,14 @@
                         </s:if>
                         <s:elseif test="#f.isDirectory==false">
                             <td width="42"><i class="fa fa-file" aria-hidden="true"></i></td>
-                            <td><s:property value="#f.getName()" /></td>
+                            <td>
+                                <s:url var="downloadFile" action="download">
+                                    <s:param name="filePath" value="#f.getPath()"/>
+                                </s:url>
+                                <s:a href="%{downloadFile}">
+                                   <s:property value="#f.getName()" /> 
+                                </s:a> 
+                            </td>
                         </s:elseif>               
 
                         <td><s:property value="#f.length()" /></td>

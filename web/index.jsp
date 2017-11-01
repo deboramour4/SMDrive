@@ -20,9 +20,11 @@
                 <div class="card-block">
                     <p></p>
                     <h4 class="card-title">Comece a explorar</h4>
-                    <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>
-                    <s:url var="urlTest" action="files"/>
-                    <s:a href="%{urlTest}">
+                    <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>                        
+                    <s:url action="files" var="urlListFiles" >
+                        <s:param name="path">C:\Users\debor\Downloads\file-explorer-struts\file-explorer-struts\build\web\WEB-INF\public</s:param>
+                    </s:url>    
+                    <s:a href="%{urlListFiles}">
                         <button type="button" class="btn btn-primary btn-lg">Explorar</button>
                     </s:a>
                     <p></p>
