@@ -20,22 +20,13 @@
             <div class="text-center">
                 <div class="container in">
                     <p></p>
-<<<<<<< HEAD
                     <h3 class="">Comece a explorar</h3>
                     <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>                            
-=======
-                    <h4 class="card-title">Comece a explorar</h4>
-                    <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>                        
->>>>>>> 78138437bd308ef86d055bd2c2c90f3125ddac13
                     <s:url action="files" var="urlListFiles" >
                         <s:param name="path">C:\Users\debor\Downloads\file-explorer-struts\file-explorer-struts\build\web\WEB-INF\public</s:param>
                     </s:url>    
                     <s:a href="%{urlListFiles}">
-<<<<<<< HEAD
                         <button class="button button-block"/>Explorar</button>
-=======
-                        <button type="button" class="btn btn-primary btn-lg">Explorar</button>
->>>>>>> 78138437bd308ef86d055bd2c2c90f3125ddac13
                     </s:a>
                     <p></p>
                 </div>
