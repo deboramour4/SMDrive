@@ -16,6 +16,7 @@
         <title>SMDrive</title>
     </head>
     <body>
+<<<<<<< HEAD
         
         
         
@@ -24,6 +25,47 @@
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
+=======
+        <div class="col-sm-8">
+            <h1 class="text-center">Meus arquivos <i class="fa fa-folder-open-o" aria-hidden="true"></i></h1>
+            <table class="table table-hover .table-condensed">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Nome</td>
+                    <th>Tamanho</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="thead-default">
+                        <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                        <td colspan="2"><a href="javascript:history.back()">...</a></td>            
+                </tr>            
+                <s:iterator value="files" var="f">
+                    <tr>
+                        <s:if test="#f.isDirectory==true">
+                            <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
+                            <td>
+                                <s:url var="enterDir" action="files">
+                                    <s:param name="path" value="#f.getPath()"/>
+                                </s:url>
+                                <s:a href="%{enterDir}">
+                                   <s:property value="#f.getName()" /> 
+                                </s:a>       
+                            </td>
+                        </s:if>
+                        <s:elseif test="#f.isDirectory==false">
+                            <td width="42"><i class="fa fa-file" aria-hidden="true"></i></td>
+                            <td>
+                                <s:url var="downloadFile" action="download">
+                                    <s:param name="filePath" value="#f.getPath()"/>
+                                </s:url>
+                                <s:a href="%{downloadFile}">
+                                   <s:property value="#f.getName()" /> 
+                                </s:a> 
+                            </td>
+                        </s:elseif>               
+>>>>>>> 78138437bd308ef86d055bd2c2c90f3125ddac13
 
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">

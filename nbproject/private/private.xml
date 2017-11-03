@@ -3,7 +3,12 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+<<<<<<< HEAD
             <file>file:/C:/Users/debor/Downloads/file-explorer-struts/file-explorer-struts/web/explorer.jsp</file>
+=======
+            <file>file:/C:/Users/debor/Downloads/file-explorer-struts/file-explorer-struts/web/index.jsp</file>
+            <file>file:/C:/Users/debor/Downloads/file-explorer-struts/file-explorer-struts/src/java/actions/FileExplorerAction.java</file>
+>>>>>>> 78138437bd308ef86d055bd2c2c90f3125ddac13
         </group>
     </open-files>
 </project-private>

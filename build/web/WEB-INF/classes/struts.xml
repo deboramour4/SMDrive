@@ -9,8 +9,13 @@
         <action name="files" class="actions.FileExplorerAction">
             <result name="sucess">/explorer.jsp</result>
         </action>
+<<<<<<< HEAD
 
         <action name="download" class="actions.DownloadAction">
+=======
+        
+                <action name="download" class="actions.DownloadAction">
+>>>>>>> 78138437bd308ef86d055bd2c2c90f3125ddac13
             <result name="success" type="stream">
                 <param name="contentType">application/octet-stream</param>
                 <param name="inputName">inputStream</param>
