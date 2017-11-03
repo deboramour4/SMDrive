@@ -5,8 +5,17 @@ import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
+import java.lang.Object;
+
+import java.io.IOException;
+import java.io.PrintWriter;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import org.apache.struts2.ServletActionContext;
 
 /**
  *
@@ -17,30 +26,26 @@ public class FileExplorerAction extends ActionSupport {
     private List<File> files;
     private boolean isDirectory;
     private String path;
-    //private String path;
 
-    public String execute() throws UnsupportedEncodingException {
-        String pathE = encode(path);
-        System.out.println(path);
-        System.out.println(pathE);
-        File f = new File(pathE);
+    public String execute() throws UnsupportedEncodingException {       
+        //pega a requisição http do servlet
+        HttpServletRequest request = ServletActionContext.getRequest();
+            
+        //pega o path do diretório no servidor
+        //path = request.getServletContext().getRealPath("/WEB-INF/public");
+        
+        //lista de objetos File
         files = new ArrayList<File>();
+        
+        //Cria um arquivo raiz com o diretório designado
+        File f = new File(path);
+        
+        // Retorna o array de files
         for (File fi : f.listFiles()) {
             isDirectory = fi.isDirectory();
             files.add(fi);
         }
         return "sucess";
-    }
-
-    public String encode(String s) throws UnsupportedEncodingException{
-        String encode;
-        encode = URLEncoder.encode(s, "UTF-8");
-        return encode;
-    }
-    
-    public String decode(String s) throws UnsupportedEncodingException{
-        System.out.println(URLDecoder.decode("%5c", "UTF-8"));
-        return s;
     }
     
     public List<File> getFiles() {
