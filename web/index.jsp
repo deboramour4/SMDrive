@@ -1,7 +1,7 @@
 <%-- 
-    Document   : index
-    Created on : 21/09/2017, 17:35:21
-    Author     : Débora
+    Document   : signin
+    Created on : 02/11/2017, 21:16:13
+    Author     : debor
 --%>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -13,25 +13,92 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
-        <title>SMDrive</title>
+        <title>Sign in | SMDrive</title>
     </head>
     <body>
-        <div class="col-sm-12 center-block"  align="center">
-            <div class="text-center">
-                <div class="container in">
-                    <p></p>
-                    <h3 class="">Comece a explorar</h3>
-                    <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>                            
-                    <s:url action="files" var="urlListFiles" >
-                        <s:param name="path">C:\Users\debor\Downloads\file-explorer-struts\file-explorer-struts\build\web\WEB-INF\public</s:param>
-                    </s:url>    
-                    <s:a href="%{urlListFiles}">
-                        <button class="button button-block"/>Explorar</button>
-                    </s:a>
-                    <p></p>
+        <div class="container">
+            <div class="row files">
+                <div class="col-sm-12">
+                      <div class="form">    
+                        <ul class="tab-group">
+                          <li class="tab active"><a href="#signup">Cadastro</a></li>
+                          <li class="tab"><a href="#login">Login</a></li>
+                        </ul>
+
+                        <div class="tab-content">
+                          <div id="signup">   
+                          <h3 class="text-center">Cadastre-se</h3>
+
+                            <form action="register" method="post">
+
+                            <div class="top-row">
+                              <div class="field-wrap">
+                                <label>
+                                  Nome<span class="req">*</span>
+                                </label>
+                                <input type="text" required autocomplete="off" name="firstName"/>
+                              </div>
+
+                              <div class="field-wrap">
+                                <label>
+                                  Sobrenome<span class="req">*</span>
+                                </label>
+                                <input type="text"required autocomplete="off" name="lastName"/>
+                              </div>
+                            </div>
+
+                            <div class="field-wrap">
+                              <label>
+                                Email<span class="req">*</span>
+                              </label>
+                              <input type="email"required autocomplete="off" name="email"/>
+                            </div>
+
+                            <div class="field-wrap">
+                              <label>
+                                Senha<span class="req">*</span>
+                              </label>
+                              <input type="password"required autocomplete="off" name="password"/>
+                            </div>
+
+                            <input type="submit" class="button button-block" value="Começar"/>
+
+                            </form>
+
+                          </div>
+
+                          <div id="login">   
+                            <h3 class="text-center">Bem-vindo de volta!</h3>
+
+                            <form action="login" method="post">
+
+                              <div class="field-wrap">
+                              <label>
+                                Email<span class="req">*</span>
+                              </label>
+                              <input type="email" required autocomplete="off" name="email"/>
+                            </div>
+
+                            <div class="field-wrap">
+                              <label>
+                                Senha<span class="req">*</span>
+                              </label>
+                              <input type="password" required autocomplete="off" name="password"/>
+                            </div>
+
+                            <p class="forgot"><a href="#">Esqueceu a senha?</a></p>
+
+                            <button class="button button-block"/>Entrar</button>
+
+                            </form>
+                          </div>        
+                        </div><!-- tab-content -->
+                  </div> <!-- /form -->
                 </div>
             </div>
         </div>
+        <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/main.js"></script>
     </body>
 </html>
+

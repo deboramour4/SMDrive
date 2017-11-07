@@ -1,14 +1,36 @@
 package model;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+
 /**
  *
  * @author Debora
  */
+@Entity
 public class Usuario {
-    private int id;
-    private String name;
+    
+    @Id
+    @GeneratedValue
+    private Integer id;
+    
+    @Column(nullable = false)
+    private String firstName;
+    
+    @Column(nullable = false)
+    private String lastName;
+    
+    @Column(nullable = false)
     private String email;
-    private String password;
- 
+
+    @Column(nullable = false)
+     private String password;
+    
+    @Column(nullable = false)
+     private String dir;
+
+
     public int getId() {
         return id;
     }
@@ -17,12 +39,20 @@ public class Usuario {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -40,5 +70,13 @@ public class Usuario {
     public void setPassword(String password) {
         this.password = password;
     }
-    
+
+    public String getDir() {
+        return dir;
+    }
+
+    public void setDir(String dir) {
+        this.dir = dir;
+    }
 }
+

@@ -16,6 +16,15 @@
         <title>SMDrive</title>
     </head>
     <body>
+        <s:if test="#session.nome == null">
+                <h2 class="text-center">Você não está logado</h2>
+                <s:a href="index.jsp">
+                   <button class="button button-block"/>Voltar</button>
+                </s:a>       
+            </td>
+        </s:if>
+            
+        <s:else>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">SMDrive</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,8 +37,8 @@
                 </li>
               </ul>
                 <ul class="navbar-nav navbar-right">
-                    <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user"></span> Débora Moura</a></li>
-                    <li class="nav-item"><a class="nav-link" href="signin.jsp"><span class="fa fa-sign-out"></span> Sair</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user"></span> <s:property value="#session.nome" />   </a></li>
+                    <li class="nav-item"><a class="nav-link" href="logout"><span class="fa fa-sign-out"></span> Sair</a></li>
                   </ul>
             </div>
           </nav>        
@@ -90,5 +99,6 @@
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
+        </s:else> 
     </body>
 </html>
