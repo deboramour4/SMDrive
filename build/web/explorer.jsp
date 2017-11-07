@@ -33,7 +33,7 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="#">Root <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="account.jsp"><span class="fa fa-cog"></span> Conta <span class="sr-only">(current)</span></a>
                 </li>
               </ul>
                 <ul class="navbar-nav navbar-right">

@@ -39,7 +39,10 @@ public class UsuarioDAO {
         Session session = util.HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
 
-        Usuario u = (Usuario) session.find(Usuario.class, id);
+        Usuario u = (Usuario) session.get(Usuario.class, id);
+        tx.commit();
+        session.close();
+        
         return u;
     }
     
@@ -47,8 +50,12 @@ public class UsuarioDAO {
         Session session = util.HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
 
-        Usuario u = (Usuario) session.find(Usuario.class, id);
+        Usuario u = (Usuario) session.get(Usuario.class, id);
         u.setDir(dir);
+        
+        tx.commit();
+        session.close();
+               
         return u;
     }
     

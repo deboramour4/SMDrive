@@ -11,18 +11,14 @@
         </action>
         
         <action name="logout" class="actions.LogoutAction">
-            <result name="sucess">signin.jsp</result>
+            <result name="sucess">index.jsp</result>
         </action>
         
         <action name="register" class="actions.SignUpAction">
-<!--        <param name="path">${user_path}</param>-->
-            <param name="path">C:\Users\debor\Documents\Netbeans Projects\fileExplorerStruts\build\web\WEB-INF\public</param>
-            <result name="sucess" type="chain">files</result>
+           <result name="sucess" type="chain">files</result>
         </action>
         
        <action name="login" class="actions.LoginAction">
-<!--        <param name="path">${user_path}</param>-->
-            <param name="path">C:\Users\debor\Documents\Netbeans Projects\fileExplorerStruts\build\web\WEB-INF\public</param>
             <result name="sucess" type="chain">files</result>
             <result name="error">404.jsp</result>
         </action>

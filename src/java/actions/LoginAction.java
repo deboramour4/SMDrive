@@ -20,7 +20,6 @@ public class LoginAction extends ActionSupport {
     
     private String email;
     private String password;
-    private String user_path;
     
 
     public String execute() {       
@@ -29,10 +28,6 @@ public class LoginAction extends ActionSupport {
             
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario = dao.getUserByEmail(email);
-                      
-        //pega o path do diretório no servidor
-        //user_path = request.getServletContext().getRealPath("/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName());
-         
         
         if(password.equals(usuario.getPassword())){   
             Map<String,Object> session = ActionContext.getContext().getSession();

@@ -1,5 +1,6 @@
 package actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
@@ -9,12 +10,15 @@ import java.lang.Object;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Map;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import model.Usuario;
+import model.UsuarioDAO;
 import org.apache.struts2.ServletActionContext;
 
 /**
@@ -30,15 +34,18 @@ public class FileExplorerAction extends ActionSupport {
     public String execute() throws UnsupportedEncodingException {       
         //pega a requisição http do servlet
         HttpServletRequest request = ServletActionContext.getRequest();
-            
-        //pega o path do diretório no servidor
-        //path = request.getServletContext().getRealPath("/WEB-INF/public");
+        Map<String,Object> session = ActionContext.getContext().getSession();
         
+        //Pega o usuario salvo na sessao
+        UsuarioDAO dao = new UsuarioDAO();
+        int id = (int) session.get("id");
+        Usuario u = dao.getUserById(id);    
+
         //lista de objetos File
         files = new ArrayList<File>();
         
         //Cria um arquivo raiz com o diretório designado
-        File f = new File(path);
+        File f = new File(""+u.getDir());
         
         // Retorna o array de files
         for (File fi : f.listFiles()) {

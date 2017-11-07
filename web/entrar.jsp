@@ -22,9 +22,7 @@
                     <p></p>
                     <h3 class="">Comece a explorar</h3>
                     <p>Diga por onde quer começar (Quase um dropbox falta só alguns detalhes pra ficar perfeito)</p>                            
-                    <s:url action="files" var="urlListFiles" >
-                        <s:param name="path">C:\Users\debor\Documents\Netbeans Projects\fileExplorerStruts\build\web\WEB-INF\public</s:param>
-                    </s:url>    
+                    <s:url action="files" var="urlListFiles" ></s:url>    
                     <s:a href="%{urlListFiles}">
                         <button class="button button-block"/>Explorar</button>
                     </s:a>
