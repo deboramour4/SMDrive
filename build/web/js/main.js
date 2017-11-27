@@ -1,4 +1,4 @@
-$('.form').find('input, textarea').on('keyup blur focus', function (e) {
+$('.form, .form-modal').find('input, textarea').on('keyup blur focus', function (e) {
   
   var $this = $(this),
       label = $this.prev('label');
@@ -24,20 +24,44 @@ $('.form').find('input, textarea').on('keyup blur focus', function (e) {
 		    label.addClass('highlight');
 			}
     }
-
 });
 
-$('.tab a').on('click', function (e) {
-  
-  e.preventDefault();
-  
-  $(this).parent().addClass('active');
-  $(this).parent().siblings().removeClass('active');
-  
-  target = $(this).attr('href');
-
-  $('.tab-content > div').not(target).hide();
-  
-  $(target).fadeIn(600);
-  
+$(document).ready(function(){
+ // Prepare the preview for profile picture
+    $("#wizard-picture").change(function(){
+        readURL(this);
+    });
+    
+        
+    $('#see-pass').hover(function() {
+        //Change the attribute to text
+        $('#pass').attr('type', 'text');
+        $('#see-pass').removeClass('fa-eye').addClass('fa-eye-slash');
+        }, function () {
+        //Change the attribute back to password
+        $('#pass').attr('type', 'password');
+        $('#see-pass').removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    );
+   
+   
+   $("#upfile").change(function () {
+        var path = this.value;
+        var filename = path.replace(/^.*\\/, "");
+        $("#nameFile").text(filename);
+    });
+   
 });
+
+
+ //Function to show image before upload
+function readURL(input) {
+    if (input.files && input.files[0]) {
+        var reader = new FileReader();
+
+        reader.onload = function (e) {
+            $('#wizardPicturePreview').attr('src', e.target.result).fadeIn('slow');
+        }
+        reader.readAsDataURL(input.files[0]);
+    }
+}

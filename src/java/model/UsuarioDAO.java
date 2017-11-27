@@ -66,6 +66,8 @@ public class UsuarioDAO {
         query.setParameter("email", email);
         List<Usuario> u = query.list();
         
+        session.close();
+        
         if (u.size() == 0 ) {
             return null; 
         } else {
@@ -77,6 +79,8 @@ public class UsuarioDAO {
         Session session = util.HibernateUtil.getSession();
         Query query = session.createQuery("from Usuario");
         List<Usuario> u = query.list();
+        session.close();
+        
         return u;
     }
     

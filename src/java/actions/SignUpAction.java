@@ -35,6 +35,7 @@ public class SignUpAction extends ActionSupport {
         usuario.setLastName(lastName);
         usuario.setEmail(email);
         usuario.setPassword(password);
+        usuario.setProfile_img("img/profile_imgs/default-avatar.png");
         usuario.setDir("");
         
         //Salva o usuário no banco
@@ -53,9 +54,9 @@ public class SignUpAction extends ActionSupport {
         //salva o usuario na sessao
         if(resultado){
             Map<String,Object> session = ActionContext.getContext().getSession();
-            Usuario user = dao.getUserByEmail(email);
-                      
-            session.put("nome", user.getFirstName());
+            Usuario user = dao.getUserByEmail(email);              
+            session.put("fistName", user.getFirstName());
+            session.put("profile_img", user.getProfile_img());
             session.put("id", user.getId()); 
             return "sucess";
            

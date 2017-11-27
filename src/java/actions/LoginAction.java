@@ -29,14 +29,18 @@ public class LoginAction extends ActionSupport {
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario = dao.getUserByEmail(email);
         
+        if (usuario == null) {
+            return "no_email";
+        } else
         if(password.equals(usuario.getPassword())){   
             Map<String,Object> session = ActionContext.getContext().getSession();
-            session.put("nome", usuario.getFirstName());
+            session.put("firstName", usuario.getFirstName());
+            session.put("profile_img", usuario.getProfile_img());
             session.put("id", usuario.getId()); 
             return "sucess";
            
         } else {
-            return "error";
+            return "wrong_pass";
         }
         
        

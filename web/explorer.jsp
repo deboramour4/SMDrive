@@ -12,11 +12,12 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
         <title>SMDrive</title>
     </head>
     <body>
-        <s:if test="#session.nome == null">
+        <s:if test="#session.firstName == null">
                 <h2 class="text-center">Você não está logado</h2>
                 <s:a href="index.jsp">
                    <button class="button button-block"/>Voltar</button>
@@ -33,20 +34,174 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
                 <li class="nav-item active">
-                  <a class="nav-link" href="account.jsp"><span class="fa fa-cog"></span> Conta <span class="sr-only">(current)</span></a>
+                  <a class="nav-link" href="account"><span class="fa fa-cog"></span> Conta <span class="sr-only">(current)</span></a>
                 </li>
               </ul>
                 <ul class="navbar-nav navbar-right">
-                    <li class="nav-item"><a class="nav-link" href="#"><span class="fa fa-user"></span> <s:property value="#session.nome" />   </a></li>
+                    <li class="nav-item">
+                        <a class="nav-link nav-profile" href="#">
+                            <div class="picture-nav">
+                                <img src="<s:property value="#session.profile_img" />" class="picture-src" title=""/>
+                            </div> <s:property value="#session.firstName" />
+                        </a>
+                    </li>
                     <li class="nav-item"><a class="nav-link" href="logout"><span class="fa fa-sign-out"></span> Sair</a></li>
-                  </ul>
+                </ul>
             </div>
+  
+              
+                
           </nav>        
         
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
                     <h3 class="text-center">Meus arquivos <i class="fa fa-folder-open" aria-hidden="true"></i></h3>
+                    <div class="toolbar" role="group">
+                        <i>Opções da pasta</i>
+                        <a href="#addFolder" title="Nova pasta" data-toggle="modal" ><i class="fa fa-plus"></i></a>
+                        <a href="#addFile" title="Upload de arquivo" data-toggle="modal" ><i class="fa fa-upload"></i></a>
+                        <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i></a>
+                        <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i></a>
+                        <a href="#infoFolder" title="Informações da pasta" data-toggle="modal" ><i class="fa fa-info"></i></a>
+                        
+                    </div>
+                    
+                    <div class="modal" id="addFolder">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Criar nova pasta <i class="fa fa-plus"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="createFolder" method="post" class="form-modal">
+                                <div class="modal-body">
+                                    <p>Você irá criar uma pasta dentro do diretório atual.</p>
+                                    <div class="field-wrap">
+                                        <label>Nome da nova pasta</label>
+                                        <input type="text" required autocomplete="off" name="newFolder" required/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="button button-block" value="Criar pasta">
+                                </div>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal" id="addFile">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Upload de arquivo <i class="fa fa-upload"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="upload" method="post" class="form-modal"> 
+                                <div class="modal-body">
+                                    <p>Você irá fazer o upload de um arquivo dentro do diretório atual.</p>
+                                    <div class="upload-btn-wrapper field-wrap">
+                                        <button class="button button-block">Escolher um arquivo</button>
+                                        <input id="upfile" type="file" required name="newFileUpload" />
+                                        <p id="nameFile"></p>
+                                     </div>
+                                </div>
+                                <div class="modal-footer">
+                                  <input type="submit" class="button button-block" value="Fazer Upload">
+                                </div>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal" id="renameFolder">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Renomear pasta <i class="fa fa-pencil"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="createFolder" method="post" class="form-modal">
+                                <div class="modal-body">
+                                    <p>Você irá criar renomear a pasta atual.</p>
+                                    <div class="field-wrap">
+                                        <label>Novo nome da pasta</label>
+                                        <input type="text" required autocomplete="off" name="newFolderName" required/>
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="button button-block" value="Renomear pasta">
+                                </div>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal" id="deleteFolder">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Apagar pasta <i class="fa fa-trash-o"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
+                            <form action="createFolder" method="post" class="form-modal">
+                                <div class="modal-body">
+                                    <p>Tem certeza que deseja apagar a pasta atual e todos os seus sub diretórios e arquivos?</p>
+                                </div>
+                                <div class="modal-footer">
+                                    <div class="col-sm-6">
+                                        <a class="button button-block" href="deleteFolder">Sim</a>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <button type="button" class="button button-block" data-dismiss="modal">Não</button>
+                                    </div>
+                                </div>
+                            </form>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal" id="infoFolder">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Informações da pasta <i class="fa fa-info"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div> 
+                            <div class="modal-body">
+                                <table>
+                                    <tr>
+                                        <th>Nome</th>
+                                        <td>Nome da pasta</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tamanho</th>
+                                        <td>Tamanho da pasta</td>
+                                    </tr>
+                                    <tr>
+                                        <th>Tipo</th>
+                                        <td>Privado</td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="button button-block" data-dismiss="modal">OK</button>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                    
                     <table class="table table-hover .table-condensed">
                     <thead>
                         <tr id="table-title">
@@ -58,9 +213,9 @@
                     </thead>
                     <tbody>
                         <tr class="thead-default">
-                                <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
-                                <td colspan="2"><a href="javascript:history.back()">..</a></td>  
-                                <td></td>
+                            <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                            <td colspan="2"><a href="javascript:history.back()">..</a></td>  
+                            <td></td>
                         </tr>            
                         <s:iterator value="files" var="f">
                             <tr>

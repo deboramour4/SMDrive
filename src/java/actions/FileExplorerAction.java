@@ -45,7 +45,8 @@ public class FileExplorerAction extends ActionSupport {
         files = new ArrayList<File>();
         
         //Cria um arquivo raiz com o diretório designado
-        File f = new File(""+u.getDir());
+        path = ""+u.getDir();
+        File f = new File(path);
         
         // Retorna o array de files
         for (File fi : f.listFiles()) {

@@ -29,6 +29,9 @@ public class Usuario {
     
     @Column(nullable = false)
      private String dir;
+    
+    @Column(nullable = false)
+     private String profile_img;
 
 
     public int getId() {
@@ -77,6 +80,14 @@ public class Usuario {
 
     public void setDir(String dir) {
         this.dir = dir;
+    }
+
+    public String getProfile_img() {
+        return profile_img;
+    }
+
+    public void setProfile_img(String profile_img) {
+        this.profile_img = profile_img;
     }
 }
 

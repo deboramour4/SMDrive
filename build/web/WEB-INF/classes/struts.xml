@@ -4,10 +4,16 @@
   "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
     <constant name="struts.devMode" value="true" />
+    <constant name="struts.multipart.maxSize" value="53477376" />
+    
     <package name="default" extends="struts-default">
 
         <action name="files" class="actions.FileExplorerAction">
             <result name="sucess">explorer.jsp</result>
+        </action>
+        
+        <action name="account" class="actions.AccountAction">
+            <result name="sucess">account.jsp</result>
         </action>
         
         <action name="logout" class="actions.LogoutAction">
@@ -20,7 +26,14 @@
         
        <action name="login" class="actions.LoginAction">
             <result name="sucess" type="chain">files</result>
-            <result name="error">404.jsp</result>
+            <result name="no_email" >
+                <param name="location">index.jsp</param>
+                <param name="error">no_email</param>
+            </result>
+            <result name="wrong_pass" >
+                <param name="location">index.jsp</param>
+                <param name="error">wrong_pass</param>
+            </result>
         </action>
         
         <action name="download" class="actions.DownloadAction">
@@ -30,6 +43,11 @@
                 <param name="contentDisposition">attachment;filename="${fileName}"</param>
             </result>
             <result name="error">/index.jsp</result>
+        </action>
+
+        <action name="upload" class="actions.UploadAction">
+            <result name="sucess" type="chain">files</result>
+            <result name="profile_img">/index.jsp</result>
         </action>
 
     </package>
