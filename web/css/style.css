@@ -255,7 +255,13 @@ textarea {
     transition: 0.5s;
 }
 
-.toolbar i:hover {
+.toolbar a {
+    margin-left: 10px;
+}
+.close {
+    cursor: pointer;
+}
+.toolbar a:hover, .toolbar a:hover i {
     color: #3949ab;
 }
 
@@ -273,7 +279,12 @@ textarea {
   -webkit-transition: all 0.5s ease;
   transition: all 0.5s ease;
   -webkit-appearance: none;
-  text-align: center
+  text-align: center;
+  cursor: pointer;
+}
+
+#upfile {
+    cursor: pointer
 }
 .button:hover, .button:focus {
   background: #283593;

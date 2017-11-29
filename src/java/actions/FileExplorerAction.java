@@ -27,11 +27,11 @@ import org.apache.struts2.ServletActionContext;
  */
 public class FileExplorerAction extends ActionSupport {
     
-    private List<File> files;
-    private List<String> breadcrumbs;
-    private boolean isDirectory;
+    private List<model.File> files;
+    private String[] breadcrumbs;
     private String path;
-    private String dir_user;
+    private String relativePath;
+    private String user_dir;
 
     public String execute() throws UnsupportedEncodingException {       
         //pega a requisição http do servlet
@@ -44,49 +44,50 @@ public class FileExplorerAction extends ActionSupport {
         Usuario u = dao.getUserById(id);    
 
         //checa se já existe um path
-        dir_user = ""+u.getDir();    
+        user_dir = request.getServletContext().getRealPath(u.getDir());  
         if (path == null) {
-            path = dir_user;
-        } 
+            path = user_dir;
+        } else {
+            relativePath = path;
+            path = request.getServletContext().getRealPath(u.getDir()+path);
+        }
         
         //lista de objetos File
-        files = new ArrayList<File>();       
+        files = new ArrayList<model.File>();       
         File f = new File(path);
         for (File fi : f.listFiles()) {
-            isDirectory = fi.isDirectory();
-            files.add(fi);
+            model.File file = new model.File();
+            file.setIsDirectory(fi.isDirectory());
+            file.setName(fi.getName());
+            file.setSize(fi.length());
+            file.setPath(fi.getPath());
+            
+            String relativePath = fi.getPath().replace(request.getServletContext().getRealPath(u.getDir()), "");
+            file.setRelativePath(relativePath);
+            files.add(file);
         }
         
         //enche o array de breadcrumbs
-        //String
-        String [] tmp_breadcrumbs;
-        tmp_breadcrumbs = path.split("\\");
-        
-        for (int i = 0; i < tmp_breadcrumbs.length; i++) {
-            breadcrumbs.add(tmp_breadcrumbs[i]);
+        if (relativePath!=null) { //se está no root ou não
+            System.out.println("---------------------- tem bread -------------------------------- ");               
+            breadcrumbs = relativePath.split("\\\\");  
+            for (int i = 2; i < breadcrumbs.length; i++) {
+                System.out.println("---------------------- bread ---------- "+i+"---------------------- "+breadcrumbs[i]);
+            }       
+        } else {
+          System.out.println("---------------------- NÃO tem bread -------------------------------- ");
+          breadcrumbs = null;
         }
         
         return "sucess";
     }
-    
-            
-        //Cria um arquivo raiz com o diretório designado
-        //System.out.println("---------------------- 1 -------------------------------- "+path);
-    
-    public List<File> getFiles() {
+   
+    public List<model.File> getFiles() {
         return files;
     }
 
-    public void setFiles(List<File> files) {
+    public void setFiles(List<model.File> files) {
         this.files = files;
-    }
-    
-    public boolean isIsDirectory() {
-        return isDirectory;
-    }
-
-    public void setIsDirectory(boolean isDirectory) {
-        this.isDirectory = isDirectory;
     }
 
     public String getPath() {
@@ -97,20 +98,28 @@ public class FileExplorerAction extends ActionSupport {
         this.path = path;
     }
 
-    public String getDir_user() {
-        return dir_user;
+    public String getUser_dir() {
+        return user_dir;
     }
 
-    public void setDir_user(String dir_user) {
-        this.dir_user = dir_user;
+    public void setUser_dir(String user_dir) {
+        this.user_dir = user_dir;
     }
 
-    public List<String> getBreadcrumbs() {
+    public String[] getBreadcrumbs() {
         return breadcrumbs;
     }
 
-    public void setBreadcrumbs(List<String> breadcrumbs) {
+    public void setBreadcrumbs(String[] breadcrumbs) {
         this.breadcrumbs = breadcrumbs;
+    }
+
+    public String getRelativePath() {
+        return relativePath;
+    }
+
+    public void setRelativePath(String relativePath) {
+        this.relativePath = relativePath;
     }
     
     

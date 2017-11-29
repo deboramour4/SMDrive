@@ -55,18 +55,33 @@
             <div class="row files">
                 <div class="col-sm-12">
                     <h3 class="text-center">Meus SMDrive  <i class="fa fa-folder-open" aria-hidden="true"></i></h3>
-                    <div class="toolbar" role="group">
-                        <i>Opções da pasta</i>
-                        <a href="#addFolder" title="Nova pasta" data-toggle="modal" ><i class="fa fa-plus"></i></a>
-                        <a href="#addFile" title="Upload de arquivo" data-toggle="modal" ><i class="fa fa-upload"></i></a>
-                        <s:if test="path != dir_user">
-                            <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i></a>
-                            <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i></a>
-                        </s:if>
-                        <a href="#infoFolder" title="Informações da pasta" data-toggle="modal" ><i class="fa fa-info"></i></a>
-                        
-                    </div>
+                                       
+                    <s:if test="breadcrumbs == null">
+                        <ol class="breadcrumb toolbar">
+                            <li class="breadcrumb-item active">Meu SMDrive</li>
+                        </ol>  
+                    </s:if>
+                    <s:else>
+                        <ol class="breadcrumb toolbar">
+                            <li class="breadcrumb-item active">Meu SMDrive</li>
+                            <s:iterator value="breadcrumbs" var="b">          
+                                <s:if test="#b != \"\"">
+                                    <li class="breadcrumb-item active"> <s:property value="#b.toString()" /> </li>
+                                </s:if>
+                            </s:iterator>
+                        </ol>
+                    </s:else>
                     
+                    <div class="toolbar" role="group">
+                        <a href="#addFolder" title="Nova pasta" data-toggle="modal" ><i class="fa fa-plus"></i> Novo</a>
+                        <a href="#addFile" title="Upload de arquivo" data-toggle="modal" ><i class="fa fa-upload"></i> Upload</a>
+                        <s:if test="path != user_dir">
+                            <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i> Renomear</a>
+                            <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i> Excluir</a>
+                        </s:if>
+                        <a href="#infoFolder" title="Informações da pasta" data-toggle="modal" ><i class="fa fa-info"></i> Info</a>                  
+                    </div>
+                                            
                     <div class="modal" id="addFolder">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -118,7 +133,7 @@
                         </div>
                     </div>
                     
-                    <s:if test="path != dir_user">
+                    <s:if test="path != user_dir">
                         <div class="modal" id="renameFolder">
                             <div class="modal-dialog" role="document">
                               <div class="modal-content">
@@ -184,15 +199,19 @@
                                 <table>
                                     <tr>
                                         <th>Nome</th>
-                                        <td>Nome da pasta</td>
+                                        <td><s:property value="path" /></td>
+                                    </tr>
+                                    <tr>
+                                        <th>Local</th>
+                                        <td><s:property value="relativePath" /></td>
                                     </tr>
                                     <tr>
                                         <th>Tamanho</th>
-                                        <td>Tamanho da pasta</td>
+                                        <td><s:property value="path" /></td>
                                     </tr>
                                     <tr>
                                         <th>Tipo</th>
-                                        <td>Privado</td>
+                                        <td><s:property value="path" /></td>
                                     </tr>
                                     
                                 </table>
@@ -214,9 +233,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                    <p><s:property value="path" /></p>
-                    <p><s:property value="dir_user" /></p>
-                        <s:if test="path != dir_user">
+                        <s:if test="path != user_dir">
                             <tr class="thead-default">
                                 <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
                                 <td colspan="2"><a href="javascript:history.back()">..</a></td>  
@@ -229,7 +246,7 @@
                                     <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
                                     <td>                                                                            
                                         <s:url var="enterDir" action="files">
-                                            <s:param name="path" value="#f.getPath()"/>
+                                            <s:param name="path" value="#f.getRelativePath()"/>
                                         </s:url>
                                         <s:a href="%{enterDir}">
                                            <s:property value="#f.getName()" /> 
