@@ -60,6 +60,12 @@
                               </label>
                               <input type="password"required autocomplete="off" name="password"/>
                             </div>
+                            
+                            <s:if test="#error == 'email'">
+                                <div class="field-wrap delete-account">
+                                    <p data-toggle="modal">Já existe uma conta com este email <span class="fa fa-exclamation-triangle"></span></p>
+                                </div>
+                            </s:if>                         
 
                             <input type="submit" class="button-login button-block" value="Começar"/>
 
@@ -68,38 +74,7 @@
                           </div>
 
                           <div id="login">   
-                            <h3 class="text-center">Bem-vindo de volta!</h3>
-
-                            <form action="login" method="post">
-
-                              <div class="field-wrap">
-                              <label>
-                                Email<span class="req">*</span>
-                              </label>
-                              <input type="email" required autocomplete="off" name="email"/>
-                            </div>
-
-                            <div class="field-wrap">
-                              <label>
-                                Senha<span class="req">*</span>
-                              </label>
-                              <input type="password" required autocomplete="off" name="password"/>
-                            </div>
-                            <s:if test="#error == 'no_email'">
-                                <div class="error-login">
-                                    <p>E-mail não cadastrado!</p>
-                                </div>
-                            </s:if>
-                            <s:elseif test="#error == 'wrong_pass'">
-                                <div class="error-login">
-                                    <p>Senha incorreta!</p>
-                                </div>
-                            </s:elseif>
-                            <p class="forgot"><a href="#">Esqueceu a senha?</a></p>
-
-                            <button class="button button-block"/>Entrar</button>
-
-                            </form>
+                            
                           </div>        
                         </div><!-- tab-content -->
                   </div> <!-- /form -->

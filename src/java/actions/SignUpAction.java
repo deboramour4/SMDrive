@@ -23,44 +23,52 @@ public class SignUpAction extends ActionSupport {
     private String email;
     private String password;
     private String user_dir;
+    private String error;
     
 
     public String execute() {       
-        //pega a requisição http do servlet
-        HttpServletRequest request = ServletActionContext.getRequest();
-        
-        //Cria um novo usuario
-        Usuario usuario = new Usuario();
-        usuario.setFirstName(firstName);
-        usuario.setLastName(lastName);
-        usuario.setEmail(email);
-        usuario.setPassword(password);
-        usuario.setProfile_img("img/profile_imgs/default-avatar.png");
-        usuario.setDir("");
-        
-        //Salva o usuário no banco
+        //Pesquisa o usuario no banco
         UsuarioDAO dao = new UsuarioDAO();
-        boolean resultado = dao.addUser(usuario);
-                              
-        //pega o path do diretório no servidor
-        user_dir = request.getServletContext().getRealPath("/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName());
-        //salva o diretorio do usuario no objeto
-        dao.setUserDirById(user_dir, usuario.getId());
+        Usuario tmp = dao.getUserByEmail(email);
         
-        //cria um novo diretorio para o usuario no servidor
-        File f = new File(user_dir);
-        f.mkdir();
-        
-        //salva o usuario na sessao
-        if(resultado){
+        if (tmp == null){
+            System.out.println("TMP == NULL -> ");
+
+            //pega a requisição http do servlet
+            HttpServletRequest request = ServletActionContext.getRequest();
+
+            //Cria um novo usuario
+            Usuario usuario = new Usuario();
+            usuario.setFirstName(firstName);
+            usuario.setLastName(lastName);
+            usuario.setEmail(email);
+            usuario.setPassword(password);
+            usuario.setProfile_img("img/profile_imgs/default-avatar.png");
+            usuario.setDir("");
+
+            //Salva o usuário no banco
+            dao.addUser(usuario);
+
+            //pega o path do diretório no servidor
+            user_dir = request.getServletContext().getRealPath("/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName());
+            //salva o diretorio do usuario no objeto
+            dao.setUserDirById(user_dir, usuario.getId());
+
+            //cria um novo diretorio para o usuario no servidor
+            File f = new File(user_dir);
+            f.mkdir();
+
+            //salva o usuario na sessao
+
             Map<String,Object> session = ActionContext.getContext().getSession();
             Usuario user = dao.getUserByEmail(email);              
-            session.put("fistName", user.getFirstName());
+            session.put("firstName", user.getFirstName());
             session.put("profile_img", user.getProfile_img());
             session.put("id", user.getId()); 
-            return "sucess";
-           
+            return "sucess";   
         } else {
+            System.out.println("TMP == NULL -> ");
+            setError("email");
             return "error";
         }
         
@@ -105,6 +113,14 @@ public class SignUpAction extends ActionSupport {
 
     public void setUser_dir(String user_dir) {
         this.user_dir = user_dir;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
    
 }

@@ -20,18 +20,12 @@ public class UsuarioDAO {
         boolean resultado = false;
         Session session = util.HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
-        
-        Usuario tmp = null;
-        tmp = getUserByEmail(usuario.getEmail());
-        
-        if (tmp == null){
-            Serializable s = session.save(usuario);
-            resultado = (s != null);
-            tx.commit();
-            session.close();
-        } else {
-            resultado = false;
-        }        
+                
+        Serializable s = session.save(usuario);
+        resultado = (s != null);
+        tx.commit();
+        session.close();
+
         return resultado;
     }
     
@@ -69,8 +63,10 @@ public class UsuarioDAO {
         session.close();
         
         if (u.size() == 0 ) {
+            System.out.println("USUARIO NÃO EXISTE");
             return null; 
         } else {
+            System.out.println("USUARIO EXISTE");
             return u.get(0);
         }
     }

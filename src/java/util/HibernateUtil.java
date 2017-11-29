@@ -12,18 +12,33 @@ import org.hibernate.cfg.Configuration;
  */
 public final class HibernateUtil {
 
+    private static Configuration configuration;
+    private static SessionFactory sessionFactory;
+    
+    static {
+        configuration = new Configuration();
+        configuration.configure();
+        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
+                .configure("hibernate.cfg.xml")
+                .build();
+        sessionFactory = configuration.buildSessionFactory(standardRegistry);
+        System.out.println("Passou!");
+    }
+    
     private HibernateUtil() {
 
     }
 
     public static final Session getSession() {
-        Configuration configuration = new Configuration();
-        configuration.configure();
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml")
-                .build();
-        SessionFactory sessionFactory = configuration.buildSessionFactory(standardRegistry);
-        Session session = sessionFactory.openSession();
+        Session session = null;
+        try {
+            session = sessionFactory.getCurrentSession();
+        } catch(Exception ex) {
+            session = sessionFactory.openSession();
+        }
+        if (session == null) {
+            session = sessionFactory.openSession();
+        }
         return session;
     }
 

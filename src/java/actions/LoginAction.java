@@ -20,6 +20,7 @@ public class LoginAction extends ActionSupport {
     
     private String email;
     private String password;
+    private String path_user;
     
 
     public String execute() {       
@@ -34,6 +35,7 @@ public class LoginAction extends ActionSupport {
         } else
         if(password.equals(usuario.getPassword())){   
             Map<String,Object> session = ActionContext.getContext().getSession();
+            setPath_user(usuario.getDir());
             session.put("firstName", usuario.getFirstName());
             session.put("profile_img", usuario.getProfile_img());
             session.put("id", usuario.getId()); 
@@ -61,5 +63,14 @@ public class LoginAction extends ActionSupport {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public String getPath_user() {
+        return path_user;
+    }
+
+    public void setPath_user(String path_user) {
+        this.path_user = path_user;
+    }
    
+    
 }

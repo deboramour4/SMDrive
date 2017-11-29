@@ -47,7 +47,7 @@ a:hover {
   text-decoration: none;
 }
 
-.delete-account a {
+.delete-account a, .delete-account p {
     color: tomato !important;
 }
 

@@ -21,17 +21,18 @@
         </action>
         
         <action name="register" class="actions.SignUpAction">
-           <result name="sucess" type="chain">files</result>
+           <result name="sucess" type="redirectAction">files</result>
+           <result name="error">register.jsp</result>
         </action>
         
        <action name="login" class="actions.LoginAction">
-            <result name="sucess" type="chain">files</result>
+            <result name="sucess" type="redirectAction">files</result>
             <result name="no_email" >
-                <param name="location">index.jsp</param>
+                <param name="location">404.jsp</param>
                 <param name="error">no_email</param>
             </result>
             <result name="wrong_pass" >
-                <param name="location">index.jsp</param>
+                <param name="location">signup.jsp</param>
                 <param name="error">wrong_pass</param>
             </result>
         </action>

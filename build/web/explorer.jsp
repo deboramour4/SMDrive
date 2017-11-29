@@ -18,28 +18,29 @@
     </head>
     <body>
         <s:if test="#session.firstName == null">
-                <h2 class="text-center">Você não está logado</h2>
-                <s:a href="index.jsp">
-                   <button class="button button-block"/>Voltar</button>
-                </s:a>       
-            </td>
+            <div class="container">
+                <div class="col-sm-6">
+                    <h2 class="text-center">Você não está logado</h2>
+                    <s:a href="index.jsp">
+                       <button class="button button-block"/>Voltar</button>
+                    </s:a>       
+                </div>
+            </div>
         </s:if>
             
         <s:else>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="#">SMDrive</a>
+            <a class="navbar-brand" href="files">SMDrive</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
               <ul class="navbar-nav mr-auto">
-                <li class="nav-item active">
-                  <a class="nav-link" href="account"><span class="fa fa-cog"></span> Conta <span class="sr-only">(current)</span></a>
-                </li>
+                
               </ul>
                 <ul class="navbar-nav navbar-right">
                     <li class="nav-item">
-                        <a class="nav-link nav-profile" href="#">
+                        <a class="nav-link nav-profile" href="account">
                             <div class="picture-nav">
                                 <img src="<s:property value="#session.profile_img" />" class="picture-src" title=""/>
                             </div> <s:property value="#session.firstName" />
@@ -47,22 +48,21 @@
                     </li>
                     <li class="nav-item"><a class="nav-link" href="logout"><span class="fa fa-sign-out"></span> Sair</a></li>
                 </ul>
-            </div>
-  
-              
-                
+            </div>            
           </nav>        
         
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
-                    <h3 class="text-center">Meus arquivos <i class="fa fa-folder-open" aria-hidden="true"></i></h3>
+                    <h3 class="text-center">Meus SMDrive  <i class="fa fa-folder-open" aria-hidden="true"></i></h3>
                     <div class="toolbar" role="group">
                         <i>Opções da pasta</i>
                         <a href="#addFolder" title="Nova pasta" data-toggle="modal" ><i class="fa fa-plus"></i></a>
                         <a href="#addFile" title="Upload de arquivo" data-toggle="modal" ><i class="fa fa-upload"></i></a>
-                        <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i></a>
-                        <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i></a>
+                        <s:if test="path != dir_user">
+                            <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i></a>
+                            <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i></a>
+                        </s:if>
                         <a href="#infoFolder" title="Informações da pasta" data-toggle="modal" ><i class="fa fa-info"></i></a>
                         
                     </div>
@@ -118,57 +118,59 @@
                         </div>
                     </div>
                     
-                    <div class="modal" id="renameFolder">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Renomear pasta <i class="fa fa-pencil"></i></h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
+                    <s:if test="path != dir_user">
+                        <div class="modal" id="renameFolder">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modasmdrivel-title">Renomear pasta <i class="fa fa-pencil"></i></h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="createFolder" method="post" class="form-modal">
+                                    <div class="modal-body">
+                                        <p>Você irá criar renomear a pasta atual.</p>
+                                        <div class="field-wrap">
+                                            <label>Novo nome da pasta</label>
+                                            <input type="text" required autocomplete="off" name="newFolderName" required/>
+                                        </div>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <input type="submit" class="button button-block" value="Renomear pasta">
+                                    </div>
+                                </form>
+                              </div>
                             </div>
-                            <form action="createFolder" method="post" class="form-modal">
-                                <div class="modal-body">
-                                    <p>Você irá criar renomear a pasta atual.</p>
-                                    <div class="field-wrap">
-                                        <label>Novo nome da pasta</label>
-                                        <input type="text" required autocomplete="off" name="newFolderName" required/>
-                                    </div>
-                                </div>
-                                <div class="modal-footer">
-                                    <input type="submit" class="button button-block" value="Renomear pasta">
-                                </div>
-                            </form>
-                          </div>
                         </div>
-                    </div>
-                    
-                    <div class="modal" id="deleteFolder">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Apagar pasta <i class="fa fa-trash-o"></i></h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
+
+                        <div class="modal" id="deleteFolder">
+                            <div class="modal-dialog" role="document">
+                              <div class="modal-content">
+                                <div class="modal-header">
+                                  <h5 class="modal-title">Apagar pasta <i class="fa fa-trash-o"></i></h5>
+                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                  </button>
+                                </div>
+                                <form action="createFolder" method="post" class="form-modal">
+                                    <div class="modal-body">
+                                        <p>Tem certeza que deseja apagar a pasta atual e todos os seus sub diretórios e arquivos?</p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <div class="col-sm-6">
+                                            <a class="button button-block" href="deleteFolder">Sim</a>
+                                        </div>
+                                        <div class="col-sm-6">
+                                            <button type="button" class="button button-block" data-dismiss="modal">Não</button>
+                                        </div>
+                                    </div>
+                                </form>
+                              </div>
                             </div>
-                            <form action="createFolder" method="post" class="form-modal">
-                                <div class="modal-body">
-                                    <p>Tem certeza que deseja apagar a pasta atual e todos os seus sub diretórios e arquivos?</p>
-                                </div>
-                                <div class="modal-footer">
-                                    <div class="col-sm-6">
-                                        <a class="button button-block" href="deleteFolder">Sim</a>
-                                    </div>
-                                    <div class="col-sm-6">
-                                        <button type="button" class="button button-block" data-dismiss="modal">Não</button>
-                                    </div>
-                                </div>
-                            </form>
-                          </div>
                         </div>
-                    </div>
-                    
+                    </s:if>
+                        
                     <div class="modal" id="infoFolder">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -212,16 +214,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="thead-default">
-                            <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
-                            <td colspan="2"><a href="javascript:history.back()">..</a></td>  
-                            <td></td>
-                        </tr>            
+                    <p><s:property value="path" /></p>
+                    <p><s:property value="dir_user" /></p>
+                        <s:if test="path != dir_user">
+                            <tr class="thead-default">
+                                <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                                <td colspan="2"><a href="javascript:history.back()">..</a></td>  
+                                <td></td>
+                            </tr>       
+                        </s:if>
                         <s:iterator value="files" var="f">
                             <tr>
                                 <s:if test="#f.isDirectory==true">
                                     <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
-                                    <td>
+                                    <td>                                                                            
                                         <s:url var="enterDir" action="files">
                                             <s:param name="path" value="#f.getPath()"/>
                                         </s:url>
