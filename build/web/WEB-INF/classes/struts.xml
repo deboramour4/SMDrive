@@ -3,6 +3,7 @@
   "-// Apache Software Foundation//DTD Struts Configuration 2.0//EN"
   "http://struts.apache.org/dtds/struts-2.0.dtd">
 <struts>
+    <constant name="struts.ui.theme" value="simple" />
     <constant name="struts.devMode" value="true" />
     <constant name="struts.multipart.maxSize" value="53477376" />
     
@@ -10,6 +11,16 @@
 
         <action name="files" class="actions.FileExplorerAction">
             <result name="sucess">explorer.jsp</result>
+        </action>
+        
+        <action name="createFolder" class="actions.CreateFolderAction">
+            <result name="sucess" type="redirectAction">files</result>
+            <result name="error" type="redirectAction">404.jsp</result>
+        </action>
+        
+        <action name="deleteFolder" class="actions.DeleteFolderAction">
+            <result name="sucess" type="redirectAction">files</result>
+            <result name="error" type="redirectAction">404.jsp</result>
         </action>
         
         <action name="account" class="actions.AccountAction">

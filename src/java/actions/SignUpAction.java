@@ -42,24 +42,18 @@ public class SignUpAction extends ActionSupport {
             usuario.setPassword(password);
             usuario.setProfile_img("img/profile_imgs/default-avatar.png");
             usuario.setDir("");
-            
-            
+                       
             //Salva o usuário no banco
             dao.addUser(usuario);
             String user_dir = "/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName();
             dao.setUserDirById(user_dir, usuario.getId());
 
-            //pega o path do diretório no servidor
-            //user_dir = request.getServletContext().getRealPath("/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName());
-
             //cria um novo diretorio para o usuario no servidor
-            
             String real_path_user = request.getServletContext().getRealPath(user_dir);            
             File f = new File(real_path_user);
             f.mkdir();
 
             //salva o usuario na sessao
-
             Map<String,Object> session = ActionContext.getContext().getSession();
             Usuario user = dao.getUserByEmail(email);              
             session.put("firstName", user.getFirstName());

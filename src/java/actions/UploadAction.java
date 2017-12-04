@@ -1,10 +1,14 @@
 package actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import model.Usuario;
+import model.UsuarioDAO;
 import org.apache.commons.io.FileUtils;
 import org.apache.struts2.ServletActionContext;
 
@@ -21,19 +25,22 @@ public class UploadAction extends ActionSupport {
 
 
     public String execute() throws Exception {
+        HttpServletRequest request = ServletActionContext.getRequest();
+        Map<String,Object> session = ActionContext.getContext().getSession();
         
-        if (filePath != null) {
-            filePath = getFilePath();
+        //Pega o usuario salvo na sessao
+        UsuarioDAO dao = new UsuarioDAO();
+        int id = (int) session.get("id");
+        Usuario u = dao.getUserById(id);
+        
+        if (filePath == null) {
+            filePath = request.getServletContext().getRealPath(u.getDir());
+        }  else {
+            filePath = request.getServletContext().getRealPath(u.getDir()+filePath);
             File fileToCreate = new File(filePath, getFileUploadFileName());
             FileUtils.copyFile(fileUpload, fileToCreate);
-            return "success";
-        } /* else {
-            HttpServletRequest request = ServletActionContext.getRequest();
-            filePath = request.getServletContext().getRealPath("/img/profile_imgs");
-            File fileToCreate = new File(filePath, getFileUploadFileName());
-            FileUtils.copyFile(fileUpload, fileToCreate);
-            return "profile_img";
-        }*/
+            return "sucess";
+        }
         return "error";
         
     }

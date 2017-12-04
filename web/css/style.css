@@ -394,3 +394,40 @@ textarea {
 .modal-footer {
     border-top: 1px solid  rgba(0,0,0,0.2);
 }
+
+#items {
+    list-style: none;
+    margin: 0px;
+    padding-left: 0px;
+    padding-right: 0px;
+    font-size: 17px;
+    color: #333333;
+    cursor: pointer;
+}
+
+#items a{
+    color: #333333 !important;
+}
+
+hr {
+  margin: 0px
+}
+#cntnr_file, #cntnr_folder{
+  display:none;
+  position:absolute;
+  border:1px solid #B2B2B2;
+  width:150px;
+  background:#c1bdba;
+  z-index: 99999
+}
+
+#items li{
+  padding: 3px;
+  padding-left:10px;
+}
+
+
+#items :hover{
+   color: white;
+  background:#3949ab;
+}
