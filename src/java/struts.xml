@@ -15,20 +15,40 @@
         
         <action name="createFolder" class="actions.CreateFolderAction">
             <result name="sucess" type="redirectAction">files</result>
-            <result name="error" type="redirectAction">404.jsp</result>
+            <result name="error">404.jsp</result>
+        </action>
+        
+        <action name="deleteFile" class="actions.DeleteFileAction">
+            <result name="sucess" type="redirectAction">files</result>
+            <result name="error">404.jsp</result>
         </action>
         
         <action name="deleteFolder" class="actions.DeleteFolderAction">
             <result name="sucess" type="redirectAction">files</result>
-            <result name="error" type="redirectAction">404.jsp</result>
+            <result name="error">404.jsp</result>
+        </action>
+        
+        <action name="renameFolder" class="actions.RenameFolderAction">
+            <result name="sucess" type="redirectAction">files</result>
+            <result name="error">404.jsp</result>
         </action>
         
         <action name="account" class="actions.AccountAction">
             <result name="sucess">account.jsp</result>
         </action>
         
+        <action name="updateAccount" class="actions.UpdateAccountAction">
+            <result name="sucess" type="redirectAction">account</result>
+            <result name="error">404.jsp</result>
+        </action>
+        
         <action name="logout" class="actions.LogoutAction">
             <result name="sucess">index.jsp</result>
+        </action>
+        
+        <action name="deleteAccount" class="actions.DeleteUserAction">
+            <result name="sucess">index.jsp</result>
+            <result name="error" type="redirectAction">account</result>
         </action>
         
         <action name="register" class="actions.SignUpAction">
@@ -58,8 +78,9 @@
         </action>
 
         <action name="upload" class="actions.UploadAction">
-            <result name="sucess" type="chain">files</result>
+            <result name="sucess" type="redirectAction">files</result>
             <result name="profile_img">/index.jsp</result>
+            <result name="error">404.jsp</result>
         </action>
 
     </package>

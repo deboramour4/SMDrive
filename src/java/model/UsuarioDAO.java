@@ -16,13 +16,37 @@ import util.HibernateUtil;
  */
 public class UsuarioDAO {
    
-    public boolean addUser(Usuario usuario) {
+    public boolean saveUser(Usuario usuario) {
         boolean resultado = false;
         Session session = util.HibernateUtil.getSession();
         Transaction tx = session.beginTransaction();
                 
         Serializable s = session.save(usuario);
         resultado = (s != null);
+        tx.commit();
+        session.close();
+
+        return resultado;
+    }
+    
+    public boolean updateUser(Usuario usuario) {
+        boolean resultado = false;
+        Session session = util.HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+                
+        session.update(usuario);
+        tx.commit();
+        session.close();
+
+        return resultado;
+    }
+    
+    public boolean deleteUser(Usuario usuario) {
+        boolean resultado = false;
+        Session session = util.HibernateUtil.getSession();
+        Transaction tx = session.beginTransaction();
+                
+        session.delete(usuario);
         tx.commit();
         session.close();
 

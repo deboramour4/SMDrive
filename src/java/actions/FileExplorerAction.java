@@ -68,14 +68,9 @@ public class FileExplorerAction extends ActionSupport {
         }
         
         //enche o array de breadcrumbs
-        if (relativePath!=null) { //se está no root ou não
-            System.out.println("---------------------- tem bread -------------------------------- ");               
-            breadcrumbs = relativePath.split("\\\\");  
-            for (int i = 2; i < breadcrumbs.length; i++) {
-                System.out.println("---------------------- bread ---------- "+i+"---------------------- "+breadcrumbs[i]);
-            }       
+        if (relativePath!=null) { //se está no root ou não             
+            breadcrumbs = relativePath.split("\\\\");       
         } else {
-          System.out.println("---------------------- NÃO tem bread -------------------------------- ");
           breadcrumbs = null;
         }
         

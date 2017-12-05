@@ -54,17 +54,14 @@
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
-                    <h3 class="text-center">Minha conta <i class="fa fa-person" aria-hidden="true"></i></h3>
-                    
+                    <h3 class="text-center">Minha conta <i class="fa fa-person" aria-hidden="true"></i></h3>                  
                     <div class="form">    
-  
                         <div id="signup">   
-                            <form action="register" method="post">
-                            
+                            <s:form action="updateAccount" method="POST" enctype="multipart/form-data">                           
                             <div class="picture-container">
                                 <div class="picture">
                                 <img src="<s:property value="profile_img" />" class="picture-src" id="wizardPicturePreview" title=""/>
-                                <input type="file" id="wizard-picture">
+                                <s:file id="wizard-picture" name="fileUpload" label="Arquivo" size="20" />
                                 </div>
                                 <h6>Atualizar foto</h6>
                             </div>
@@ -102,10 +99,10 @@
                             <div class="field-wrap delete-account">
                                 <a href="#deleteAccount" data-toggle="modal">Apagar Conta <span class="fa fa-trash-o"></span></a>
                             </div>
-
+                            
                             <input type="submit" class="button button-block" value="Atualizar"/>
 
-                            </form>
+                            </s:form>
                           </div> 
                               
                               

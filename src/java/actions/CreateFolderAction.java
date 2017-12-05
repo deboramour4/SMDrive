@@ -1,8 +1,14 @@
 package actions;
 
+import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.util.Map;
+import javax.servlet.http.HttpServletRequest;
+import model.Usuario;
+import model.UsuarioDAO;
+import org.apache.struts2.ServletActionContext;
 
 /**
  *
@@ -14,10 +20,24 @@ public class CreateFolderAction extends ActionSupport {
     private String newFolder;
 
     public String execute() throws UnsupportedEncodingException {
-        path = path+"/"+newFolder;
+        HttpServletRequest request = ServletActionContext.getRequest();
+        Map<String,Object> session = ActionContext.getContext().getSession();
+        
+        //Pega o usuario salvo na sessao
+        UsuarioDAO dao = new UsuarioDAO();
+        int id = (int) session.get("id");
+        Usuario u = dao.getUserById(id);    
+
+        String filePath = request.getServletContext().getRealPath(u.getDir());
+        if (path == null) {
+            path = request.getServletContext().getRealPath(u.getDir()+"/"+newFolder);
+        } else {
+            path = request.getServletContext().getRealPath(u.getDir()+path+"/"+newFolder);
+        }
         File f = new File(path);
         f.mkdir();
         return "sucess";
+
     }
     
     public String getPath() {

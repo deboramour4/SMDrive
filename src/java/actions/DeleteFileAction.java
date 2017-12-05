@@ -15,10 +15,10 @@ import org.apache.struts2.ServletActionContext;
  *
  * @author Débora
  */
-public class DeleteFolderAction extends ActionSupport {
+public class DeleteFileAction extends ActionSupport {
     
-    private String filePath;
     private long storage;
+    private String filePath;
 
     public String execute() throws UnsupportedEncodingException {
         //pega a requisição http do servlet
@@ -34,17 +34,20 @@ public class DeleteFolderAction extends ActionSupport {
             //checa se já existe um path 
             if (filePath != null) {
                 filePath = request.getServletContext().getRealPath(u.getDir()+filePath);
-                System.out.println(filePath+" -- delete folder ------------------ -------------------------");
-                File folderDelete = new File(filePath);   
+                System.out.println(filePath+" -- delete file ------------------ -------------------------");
+                File folderDelete = new File(filePath);
                 storage = u.getStorage();
                 System.out.println(storage+" -- storage u.getStorage ------------------ -------------------------"); 
-                delete(folderDelete);
-
+                
+                storage = storage - folderDelete.length(); 
+                
+                folderDelete.delete();
+           
                 System.out.println(storage+" -- stprage depois de deletar------------------ -------------------------");
                 u.setStorage(storage);               
                 dao.updateUser(u);
                 
-                return "sucess";
+                return "sucess";               
             }            
             return "error";
         } catch (Exception ex) {
@@ -52,19 +55,6 @@ public class DeleteFolderAction extends ActionSupport {
         }     
     }
     
-    public void delete(File path){
-        File[] l = path.listFiles();
-        for (File f : l){
-            if (f.isDirectory())
-                delete(f);
-            else {
-                setStorage(getStorage() - f.length());
-                f.delete();
-            }
-        }
-        path.delete(); 
-    }
-
     public String getFilePath() {
         return filePath;
     }
@@ -80,6 +70,5 @@ public class DeleteFolderAction extends ActionSupport {
     public void setStorage(long storage) {
         this.storage = storage;
     }
-    
-    
+  
 }

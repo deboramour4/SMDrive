@@ -18,10 +18,11 @@ import org.apache.struts2.ServletActionContext;
  */
 public class UploadAction extends ActionSupport {
     
-    public String filePath;
-    public File fileUpload;
-    public String fileUploadContentType;
-    public String fileUploadFileName;
+    private long storage;
+    private String filePath;
+    private File fileUpload;
+    private String fileUploadContentType;
+    private String fileUploadFileName;
 
 
     public String execute() throws Exception {
@@ -34,15 +35,26 @@ public class UploadAction extends ActionSupport {
         Usuario u = dao.getUserById(id);
         
         if (filePath == null) {
-            filePath = request.getServletContext().getRealPath(u.getDir());
+            return "error";
         }  else {
             filePath = request.getServletContext().getRealPath(u.getDir()+filePath);
-            File fileToCreate = new File(filePath, getFileUploadFileName());
-            FileUtils.copyFile(fileUpload, fileToCreate);
-            return "sucess";
-        }
-        return "error";
-        
+            storage = u.getStorage();
+            
+            //checa se ainda existe espaço para o usuário (10MB por usuario)
+            if (storage+fileUpload.length() > 10485760) {
+                System.out.println("ERRO >>>> Sem espaço suficiente");  
+            } else {
+                File fileToCreate = new File(filePath, getFileUploadFileName());
+                FileUtils.copyFile(fileUpload, fileToCreate);
+                
+                long newStorage = storage+fileUpload.length();  
+                u.setStorage(newStorage);               
+                dao.updateUser(u);              
+                return "sucess";
+                
+            }
+            return "error";
+        }        
     }
 
     public File getFileUpload() {
@@ -75,6 +87,14 @@ public class UploadAction extends ActionSupport {
 
     public void setFilePath(String filePath) {
         this.filePath = filePath;
+    }
+
+    public long getStorage() {
+        return storage;
+    }
+
+    public void setStorage(long storage) {
+        this.storage = storage;
     }
            
 }

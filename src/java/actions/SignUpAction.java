@@ -44,7 +44,7 @@ public class SignUpAction extends ActionSupport {
             usuario.setDir("");
                        
             //Salva o usuário no banco
-            dao.addUser(usuario);
+            dao.saveUser(usuario);
             String user_dir = "/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName();
             dao.setUserDirById(user_dir, usuario.getId());
 

@@ -98,7 +98,7 @@
                                     <div class="field-wrap">
                                         <label>Nome da nova pasta</label>
                                         <input type="text" required autocomplete="off" name="newFolder" required/>
-                                        <input type="hidden" name="path" value="<s:property value="path"/>">
+                                        <input type="hidden" name="path" value="<s:property value="relativePath"/>">
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -145,21 +145,24 @@
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
                             <div class="modal-header">
-                              <h5 class="modasmdrivel-title">Renomear pasta <i class="fa fa-pencil"></i></h5>
+                              <h5 class="modasmdrivel-title">Renomear arquivo/pasta <i class="fa fa-pencil"></i></h5>
                               <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action="createFolder" method="post" class="form-modal">
+                            <form action="renameFolder" method="post" class="form-modal">
                                 <div class="modal-body">
-                                    <p>Você irá criar renomear a pasta atual.</p>
+                                    <p>Você irá renomear o arquivo ou pasta atual.</p>
+                                    <p><b>Localização</b> <span class="fileLocation"></span></p>
                                     <div class="field-wrap">
-                                        <label>Novo nome da pasta</label>
-                                        <input type="text" required autocomplete="off" name="newFolderName" required/>
+                                        <label>Novo nome</label>
+                                        <s:hidden name="beforeFilePath" value="%{relativePath}" />
+                                        <input type="hidden" id="renamePathFolder" name="filePath" value="" />
+                                        <input type="text"  name="newFilePath" required/>
                                     </div>
                                 </div>
                                 <div class="modal-footer">
-                                    <input type="submit" class="button button-block" value="Renomear pasta">
+                                    <input type="submit" class="button button-block" value="Renomear">
                                 </div>
                             </form>
                           </div>
@@ -178,6 +181,7 @@
                             <form action="deleteFolder" method="post" class="form-modal">
                                 <div class="modal-body">
                                     <p>Tem certeza que deseja apagar a pasta atual e todos os seus sub diretórios e arquivos?</p>
+                                    <p><b>Localização</b> <span class="fileLocation"></span></p>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="col-sm-6">
@@ -202,10 +206,10 @@
                                 <span aria-hidden="true">&times;</span>
                               </button>
                             </div>
-                            <form action="deleteFolder" method="post" class="form-modal">
+                            <form action="deleteFile" method="post" class="form-modal">
                                 <div class="modal-body">
                                     <p>Tem certeza que deseja apagar o arquivo?</p>
-                                    <p><b>Localização</b> <span id="fileLocation"></span></p>
+                                    <p><b>Localização</b> <span class="fileLocation"></span></p>
                                 </div>
                                 <div class="modal-footer">
                                     <div class="col-sm-6">
@@ -217,43 +221,6 @@
                                     </div>
                                 </div>
                             </form>
-                          </div>
-                        </div>
-                    </div>
-                        
-                    <div class="modal" id="infoFolder">
-                        <div class="modal-dialog" role="document">
-                          <div class="modal-content">
-                            <div class="modal-header">
-                              <h5 class="modal-title">Informações da pasta <i class="fa fa-info"></i></h5>
-                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                              </button>
-                            </div> 
-                            <div class="modal-body">
-                                <table>
-                                    <tr>
-                                        <th>Nome</th>
-                                        <td><s:property value="path" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Local</th>
-                                        <td><s:property value="relativePath" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Tamanho</th>
-                                        <td><s:property value="path" /></td>
-                                    </tr>
-                                    <tr>
-                                        <th>Tipo</th>
-                                        <td><s:property value="path" /></td>
-                                    </tr>
-                                    
-                                </table>
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="button button-block" data-dismiss="modal">OK</button>
-                            </div>
                           </div>
                         </div>
                     </div>
@@ -300,7 +267,7 @@
                                     </td>
                                 </s:elseif>               
 
-                                <td><s:property value="#f.getSize()" /></td>
+                                <td><s:property value="#f.getSize()" /> Kb</td>
                                 <td><i class="fa fa-globe" aria-hidden="true"></td>
                             </tr>
                         </s:iterator>
@@ -312,8 +279,7 @@
                                     
         <div id='cntnr_file'>
           <ul id='items'>
-            <a href="#renameFile" data-toggle="modal"><li> Renomear</li></a>
-            <a href="#infoFile" data-toggle="modal"><li> Info</li></a>
+            <a href="#renameFolder" data-toggle="modal"><li> Renomear</li></a>
           </ul>
           <hr />
           <ul id="items">
@@ -324,7 +290,6 @@
         <div id='cntnr_folder'>
           <ul id='items'>
             <a href="#renameFolder" data-toggle="modal"><li> Renomear</li></a>
-            <a href="#infoFolder" data-toggle="modal"><li> Info</li></a>
           </ul>
           <hr />
           <ul id="items">

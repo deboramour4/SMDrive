@@ -32,6 +32,9 @@ public class Usuario {
     
     @Column(nullable = false)
      private String profile_img;
+    
+    @Column(nullable = false)
+     private long storage;
 
 
     public int getId() {
@@ -89,5 +92,14 @@ public class Usuario {
     public void setProfile_img(String profile_img) {
         this.profile_img = profile_img;
     }
+
+    public long getStorage() {
+        return storage;
+    }
+
+    public void setStorage(long storage) {
+        this.storage = storage;
+    }
+    
 }
 

@@ -45,15 +45,7 @@ $(document).ready(function(){
         var path = this.value;
         var filename = path.replace(/^.*\\/, "");
         $("#nameFile").text(filename);
-    });
-//AJAX buttons
-    //$("#deleteFolderm").click(function () {
-      //  var decodedPath = path.replace(/\+/g, ' ');
-        //decodedPath = decodeURIComponent(decodedPath);
-        //$("#deletePathHidden").val(path)
-        //download$.post("download", {filePath: decodedPath})
-    //});
-  
+    });  
 });
 
 //Function to show image before upload
@@ -76,7 +68,8 @@ $(".file").bind("contextmenu",function(e){
   var decodedPath = path.replace(/\+/g, ' ');
   decodedPath = decodeURIComponent(decodedPath);
   $("#deletePathFile").val(decodedPath)
-  $("#fileLocation").text(decodedPath)
+  $("#renamePathFolder").val(decodedPath)
+  $(".fileLocation").text(decodedPath)
   console.log(path)
   //console.log(e.pageX + "," + e.pageY);
   $("#cntnr_file").css("left",e.pageX);
@@ -98,6 +91,8 @@ $(".folder").bind("contextmenu",function(e){
   var decodedPath = path.replace(/\+/g, ' ');
   decodedPath = decodeURIComponent(decodedPath);
   $("#deletePathFolder").val(decodedPath)
+  $("#renamePathFolder").val(decodedPath)
+  $(".fileLocation").text(decodedPath)
   console.log(path)
   $("#cntnr_folder").css("left",e.pageX);
   $("#cntnr_folder").css("top",e.pageY);        
