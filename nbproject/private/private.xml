@@ -3,11 +3,14 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/actions/ShareFolderAction.java</file>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/model/SharingDAO.java</file>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/struts.xml</file>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/model/Sharing.java</file>
             <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/web/js/main.js</file>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/hibernate.cfg.xml</file>
+            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/web/css/style.css</file>
             <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/web/explorer.jsp</file>
-            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/actions/DownloadAction.java</file>
-            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/actions/DeleteFolderAction.java</file>
-            <file>file:/C:/Users/debor/Documents/Netbeans%20Projects/SMDrive/src/java/actions/FileExplorerAction.java</file>
         </group>
     </open-files>
 </project-private>

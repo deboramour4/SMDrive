@@ -13,6 +13,11 @@
             <result name="sucess">explorer.jsp</result>
         </action>
         
+        <action name="shareFolder" class="actions.ShareFolderAction">
+            <result name="sucess" type="redirectAction">files</result>
+            <result name="error">404.jsp</result>
+        </action>
+        
         <action name="createFolder" class="actions.CreateFolderAction">
             <result name="sucess" type="redirectAction">files</result>
             <result name="error">404.jsp</result>

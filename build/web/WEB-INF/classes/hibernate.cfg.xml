@@ -13,5 +13,6 @@
   <property name="format_sql">true</property>
   
   <mapping class="model.Usuario" />
+  <mapping class="model.Sharing" />
  </session-factory>
 </hibernate-configuration>

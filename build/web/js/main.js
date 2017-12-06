@@ -46,6 +46,13 @@ $(document).ready(function(){
         var filename = path.replace(/^.*\\/, "");
         $("#nameFile").text(filename);
     });  
+    
+// Compartilhar arquivo
+    $("#shareFileBtn").click (function (){
+        var url = $('#shareFPath').attr('value')
+        alert(url)
+        $("#shareFilePath").val(url)
+    })
 });
 
 //Function to show image before upload

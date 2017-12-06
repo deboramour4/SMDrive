@@ -28,6 +28,7 @@ import org.apache.struts2.ServletActionContext;
 public class FileExplorerAction extends ActionSupport {
     
     private List<model.File> files;
+    private List<model.File> filesSharing;
     private String[] breadcrumbs;
     private String path;
     private String relativePath;
@@ -116,7 +117,13 @@ public class FileExplorerAction extends ActionSupport {
     public void setRelativePath(String relativePath) {
         this.relativePath = relativePath;
     }
-    
-    
+
+    public List<model.File> getFilesSharing() {
+        return filesSharing;
+    }
+
+    public void setFilesSharing(List<model.File> filesSharing) {
+        this.filesSharing = filesSharing;
+    }  
     
 }

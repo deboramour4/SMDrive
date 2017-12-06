@@ -54,7 +54,7 @@
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
-                    <h3 class="text-center">Minha conta <i class="fa fa-person" aria-hidden="true"></i></h3>                  
+                    <h3 class="text-center">Minha conta <i class="fa fa-user"></i></h3>                  
                     <div class="form">    
                         <div id="signup">   
                             <s:form action="updateAccount" method="POST" enctype="multipart/form-data">                           

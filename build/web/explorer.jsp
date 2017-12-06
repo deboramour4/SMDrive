@@ -71,17 +71,177 @@
                             </s:iterator>
                         </ol>
                     </s:else>
+                
+                <div class="row">
+                        <div class="col-sm-3"> <!-- required for floating -->
+                          <!-- Nav tabs -->
+                          <ul class="nav nav-tabs tabs-left">
+                            <li class="active"><a href="#home" data-toggle="tab"><i class="fa fa-folder-open"></i> Meu SMDrive</a></li>
+                            <li><a href="#profile" data-toggle="tab"><i class="fa fa-share-alt"></i> Compartilhados comigo</a></li>
+                            <li><a href="#messages" data-toggle="tab"></a></li>
+                          </ul>
+                        </div>
+
+                        <div class="col-sm-9">
+                          <!-- Tab panes -->
+                          <div class="tab-content">
+                            <div class="tab-pane active" id="home">
                     
+                    <!-- INICIO DA TAB PRINCIPAL -->
                     <div class="toolbar" role="group">
                         <a href="#addFolder" title="Nova pasta" data-toggle="modal" ><i class="fa fa-plus"></i> Novo</a>
                         <a href="#addFile" title="Upload de arquivo" data-toggle="modal" ><i class="fa fa-upload"></i> Upload</a>
-                        <!--
-                            <a href="#renameFolder" title="Renomear pasta" data-toggle="modal" ><i class="fa fa-pencil"></i> Renomear</a>
-                            <a href="#deleteFolder" title="Deletar pasta" data-toggle="modal" ><i class="fa fa-trash-o"></i> Excluir</a>
-                        
-                        <a href="#infoFolder" title="Informações da pasta" data-toggle="modal" ><i class="fa fa-info"></i> Info</a> -->                 
                     </div>
-                                            
+                    
+                    <table class="table table-hover .table-condensed">
+                    <thead>
+                        <tr id="table-title">
+                            <th></th>
+                            <th>Nome</td>
+                            <th>Tamanho</td>
+                            <th>Modo</td>
+                            <th>Share</td>    
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <s:if test="path != user_dir">
+                            <tr class="thead-default">
+                                <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                                <td colspan="2"><a href="javascript:history.back()">..</a></td>  
+                                <td></td>
+                            </tr>       
+                        </s:if>
+                        <s:iterator value="files" var="f">
+                            <tr>
+                                <s:if test="#f.isDirectory==true">
+                                    <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
+                                    <td class="folder" width="450">                                                                            
+                                        <s:url var="enterDir" action="files">
+                                            <s:param name="path" value="#f.getRelativePath()"/>
+                                        </s:url>
+                                        <s:a href="%{enterDir}">
+                                           <s:property value="#f.getName()" /> 
+                                        </s:a>       
+                                    </td>
+                                </s:if>
+                                <s:elseif test="#f.isDirectory==false">
+                                    <td width="42"><i class="fa fa-file" aria-hidden="true"></i></td>
+                                    <td  class="file" width="450">
+                                        <s:url var="downloadFile" action="download">
+                                            <s:param name="filePath" value="#f.getRelativePath()"/>
+                                        </s:url>
+                                        <s:a href="%{downloadFile}">
+                                           <s:property value="#f.getName()" /> 
+                                        </s:a> 
+                                    </td>
+                                </s:elseif>               
+
+                                <td width="150"><s:property value="#f.getSize()" /> Kb</td>
+                                <td width="42" class="iconShare">
+                                    <s:if test="#f.getRelativePath() == true">
+                                       <i class="fa fa-globe" aria-hidden="true"></i>          
+                                    </s:if>
+                                    <s:else>
+                                        <i class="fa fa-lock" aria-hidden="true"></i>
+                                    </s:else>                                                                       
+                                </td>
+                                
+                                <td width="42" class="iconShare">
+                                    <input type="hidden" id="shareFPath" value="<s:property value="#f.getRelativePath()" />">
+                                    <a href="#shareFile" id="shareFileBtn" data-toggle="modal"><i class="fa fa-share-alt" aria-hidden="true"></i></a>                                                                                                           
+                                </td>
+                            </tr>
+                        </s:iterator>
+                    </tbody>
+                    </table>                   
+                    <!-- FIM DA TAB PRINCIPAL --> 
+                    </div>
+                              <div class="tab-pane" id="profile">
+                                  
+                    <!-- INICIO DA TAB COMPARTILHADA -->                   
+                    <table class="table table-hover .table-condensed">
+                    <thead>
+                        <tr id="table-title">
+                            <th></th>
+                            <th>Nome</td>
+                            <th>Tamanho</td>
+                            <th>Proprietário</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <s:if test="path != user_dir">
+                            <tr class="thead-default">
+                                <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
+                                <td colspan="2"><a href="javascript:history.back()">..</a></td>  
+                                <td></td>
+                            </tr>       
+                        </s:if>
+                        <s:iterator value="files" var="f">
+                            <tr>
+                                <s:if test="#f.isDirectory==true">
+                                    <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
+                                    <td class="folder">                                                                            
+                                        <s:url var="enterDir" action="files">
+                                            <s:param name="path" value="#f.getRelativePath()"/>
+                                        </s:url>
+                                        <s:a href="%{enterDir}">
+                                           <s:property value="#f.getName()" /> 
+                                        </s:a>       
+                                    </td>
+                                </s:if>
+                                <s:elseif test="#f.isDirectory==false">
+                                    <td width="42"><i class="fa fa-file" aria-hidden="true"></i></td>
+                                    <td  class="file">
+                                        <s:url var="downloadFile" action="download">
+                                            <s:param name="filePath" value="#f.getRelativePath()"/>
+                                        </s:url>
+                                        <s:a href="%{downloadFile}">
+                                           <s:property value="#f.getName()" /> 
+                                        </s:a> 
+                                    </td>
+                                </s:elseif>               
+
+                                <td><s:property value="#f.getSize()" /> Kb</td>
+                                <td><i class="fa fa-globe" aria-hidden="true"></td>
+                            </tr>
+                        </s:iterator>
+                    </tbody>
+                    </table>                   
+                    <!-- FIM DA TAB COMPARTILHADA --> 
+                                       
+                              </div>
+                            <div class="tab-pane" id="messages"></div>
+                          </div>
+                        </div>
+                    </div>
+                    
+                    <div class="modal" id="shareFile">
+                        <div class="modal-dialog" role="document">
+                          <div class="modal-content">
+                            <div class="modal-header">
+                              <h5 class="modal-title">Compartilhar pasta/arquivo <i class="fa fa-share-alt"></i></h5>
+                              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>                          
+                            
+                            <form action="shareFolder" method="post" class="form-modal">
+                                <div class="modal-body">
+                                    <p>Você irá compartilhar a sua pasta/arquivo com um usuário do SMDrive.</p>
+                                    <div class="field-wrap">
+                                        <label>Email do usuário para compartilhar</label>
+                                        <input type="email" required autocomplete="off" name="emailShare" required/>
+                                        <input type="hidden" name="path" id="shareFilePath" value="">
+                                    </div>
+                                </div>
+                                <div class="modal-footer">
+                                    <input type="submit" class="button button-block" value="Compartilhar">
+                                </div>
+                            </form>                                                     
+                          </div>
+                        </div>
+                    </div>
+                                    
                     <div class="modal" id="addFolder">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">
@@ -156,9 +316,9 @@
                                     <p><b>Localização</b> <span class="fileLocation"></span></p>
                                     <div class="field-wrap">
                                         <label>Novo nome</label>
-                                        <s:hidden name="beforeFilePath" value="%{relativePath}" />
-                                        <input type="hidden" id="renamePathFolder" name="filePath" value="" />
                                         <input type="text"  name="newFilePath" required/>
+                                        <s:hidden name="beforeFilePath" value="%{relativePath}" />
+                                        <input type="hidden" id="renamePathFolder" name="filePath" value="" />                                       
                                     </div>
                                 </div>
                                 <div class="modal-footer">
@@ -224,55 +384,8 @@
                           </div>
                         </div>
                     </div>
-                    
-                    <table class="table table-hover .table-condensed">
-                    <thead>
-                        <tr id="table-title">
-                            <th></th>
-                            <th>Nome</td>
-                            <th>Tamanho</td>
-                            <th>Share</td>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <s:if test="path != user_dir">
-                            <tr class="thead-default">
-                                <td ><i class="fa fa-folder-open-o" aria-hidden="true"></i></td>
-                                <td colspan="2"><a href="javascript:history.back()">..</a></td>  
-                                <td></td>
-                            </tr>       
-                        </s:if>
-                        <s:iterator value="files" var="f">
-                            <tr>
-                                <s:if test="#f.isDirectory==true">
-                                    <td width="42"><i class="fa fa-folder-o" aria-hidden="true"></i></td>
-                                    <td class="folder">                                                                            
-                                        <s:url var="enterDir" action="files">
-                                            <s:param name="path" value="#f.getRelativePath()"/>
-                                        </s:url>
-                                        <s:a href="%{enterDir}">
-                                           <s:property value="#f.getName()" /> 
-                                        </s:a>       
-                                    </td>
-                                </s:if>
-                                <s:elseif test="#f.isDirectory==false">
-                                    <td width="42"><i class="fa fa-file" aria-hidden="true"></i></td>
-                                    <td  class="file">
-                                        <s:url var="downloadFile" action="download">
-                                            <s:param name="filePath" value="#f.getRelativePath()"/>
-                                        </s:url>
-                                        <s:a href="%{downloadFile}">
-                                           <s:property value="#f.getName()" /> 
-                                        </s:a> 
-                                    </td>
-                                </s:elseif>               
-
-                                <td><s:property value="#f.getSize()" /> Kb</td>
-                                <td><i class="fa fa-globe" aria-hidden="true"></td>
-                            </tr>
-                        </s:iterator>
-                    </tbody>
-                    </table>
+                                        
+                                        
                 </div>
             </div>
         </div>
@@ -281,7 +394,6 @@
           <ul id='items'>
             <a href="#renameFolder" data-toggle="modal"><li> Renomear</li></a>
           </ul>
-          <hr />
           <ul id="items">
             <a href="#deleteFile" data-toggle="modal"><li> Excluir</li></a>
           </ul>
@@ -291,7 +403,6 @@
           <ul id='items'>
             <a href="#renameFolder" data-toggle="modal"><li> Renomear</li></a>
           </ul>
-          <hr />
           <ul id="items">
             <a href="#deleteFolder" data-toggle="modal"><li> Excluir</li></a>
           </ul>
