@@ -14,125 +14,84 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
-        <title>SMDrive</title>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <title>Conta | SMDrive</title>
     </head>
     <body>
+        
         <s:if test="#session.firstName == null">
-            <div class="container">
-                <div class="col-sm-6-offset"
-                    <h2 class="text-center">Você não está logado</h2>
-                    <s:a href="index.jsp">
-                       <button class="button button-block"/>Voltar</button>
-                    </s:a>    
-                </div>
-            </div>
+            <%@ include file= "views/nosession.jsp" %>  
         </s:if>
             
         <s:else>
-        <nav class="navbar navbar-expand-lg navbar-light bg-light">
-            <a class="navbar-brand" href="files">SMDrive</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-              <span class="navbar-toggler-icon"></span>
-            </button>
-            <div class="collapse navbar-collapse" id="navbarSupportedContent">
-              <ul class="navbar-nav mr-auto">
-                
-              </ul>
-                <ul class="navbar-nav navbar-right">
-                    <li class="nav-item">
-                        <a class="nav-link nav-profile" href="account">
-                            <div class="picture-nav">
-                                <img src="<s:property value="#session.profile_img" />" class="picture-src" title=""/>
-                            </div> <s:property value="#session.firstName" />
-                        </a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="logout"><span class="fa fa-sign-out"></span> Sair</a></li>
-                </ul>
-            </div>            
-          </nav>       
+        <%@ include file= "views/navaccount.jsp" %>        
         
-        <div class="container">
-            <div class="row files">
-                <div class="col-sm-12">
-                    <h3 class="text-center">Minha conta <i class="fa fa-user"></i></h3>                  
-                    <div class="form">    
-                        <div id="signup">   
-                            <s:form action="updateAccount" method="POST" enctype="multipart/form-data">                           
-                            <div class="picture-container">
-                                <div class="picture">
-                                <img src="<s:property value="profile_img" />" class="picture-src" id="wizardPicturePreview" title=""/>
-                                <s:file id="wizard-picture" name="fileUpload" label="Arquivo" size="20" />
-                                </div>
-                                <h6>Atualizar foto</h6>
-                            </div>
-                            <div class="top-row">
-                              <div class="field-wrap">
-                                  <label class="active">
-                                  Nome<span class="req">*</span>
-                                </label>
-                                  <input type="text" required autocomplete="off" name="firstName" value="<s:property value="firstName" />"/>
-                              </div>
+        <div class="container">    
+            <div class="row files" id="account">
+                <div class="col-sm-4">
+                  <ul class="nav nav-tabs tabs-left">
+                    <li class="active"><a href="account"><i class="fa fa-user"></i> Dados pessoais</a></li>
+                    <li><a href="password"><i class="fa fa-lock"></i> Senha</a></li>
+                    <li><a href="settings" ><i class="fa fa-cog"></i> Configurações</a></li>
+                  </ul>
+                </div>
 
-                              <div class="field-wrap">
-                                <label class="active">
-                                  Sobrenome<span class="req">*</span>
-                                </label>
-                                  <input type="text"required autocomplete="off" name="lastName" value="<s:property value="lastName" />"/>
-                              </div>
-                            </div>
-
-                            <div class="field-wrap">
-                              <label class="active">
-                                Email<span class="req ">*</span>
-                              </label>
-                              <input type="email"required autocomplete="off" name="email" value="<s:property value="email" />"/>
-                            </div>
-
-                            <div class="field-wrap">
-                              <label class="active">
-                                Senha<span class="req">*</span>
-                              </label>
-                              <input id="pass"  type="password"required autocomplete="off" name="password" value="<s:property value="password" />"/>
-                              <i id="see-pass" class="fa fa-eye"></i>
-                            </div>
-                            
-                            <div class="field-wrap delete-account">
-                                <a href="#deleteAccount" data-toggle="modal">Apagar Conta <span class="fa fa-trash-o"></span></a>
-                            </div>
-                            
-                            <input type="submit" class="button button-block" value="Atualizar"/>
-
-                            </s:form>
-                          </div> 
-                              
-                              
-                        <div class="modal" id="deleteAccount">
-                            <div class="modal-dialog" role="document">
-                              <div class="modal-content">
-                                <div class="modal-header">
-                                  <h5 class="modal-title">Apagar conta <i class="fa fa-trash-o"></i></h5>
-                                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                    <span aria-hidden="true">&times;</span>
-                                  </button>
-                                </div>
-                                <form action="createFolder" method="post" class="form-modal">
-                                    <div class="modal-body">
-                                        <p>Tem certeza que deseja apagar sua conta, consequentemente todas as suas pastas?</p>
-                                    </div>
-                                    <div class="modal-footer">
-                                        <div class="col-sm-6">
-                                            <a class="button button-block" href="deleteAccount">Sim</a>
+                <div class="col-sm-8">
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div class="tab-pane active" id="home">
+                        <!-- INICIO DA TAB DADOS -->                 
+                            <div class="form">    
+                                <div id="signup">   
+                                    <s:form action="updateAccount" method="POST" enctype="multipart/form-data">                           
+                                    <div class="picture-container">
+                                        <div class="picture">
+                                        <img src="<s:property value="#session.profile_img" />" class="picture-src" id="wizardPicturePreview" title=""/>
+                                        <s:file id="wizard-picture" name="fileUpload" label="Arquivo" size="20" />
                                         </div>
-                                        <div class="col-sm-6">
-                                            <button type="button" class="button button-block" data-dismiss="modal">Não</button>
+                                        <h6>Atualizar foto</h6>
+                                    </div>
+                                    <div class="top-row">
+                                        <div class="field-wrap">
+                                            <label class="active">
+                                            Nome<span class="req">*</span>
+                                          </label>
+                                            <input type="text" required autocomplete="off" name="firstName" value="<s:property value="firstName" />"/>
+                                        </div>
+                                        <div class="field-wrap">
+                                          <label class="active">
+                                            Sobrenome<span class="req">*</span>
+                                          </label>
+                                            <input type="text"required autocomplete="off" name="lastName" value="<s:property value="lastName" />"/>
                                         </div>
                                     </div>
-                                </form>
-                              </div>
+                                    <div class="field-wrap">
+                                      <label class="active">
+                                        Email<span class="req ">*</span>
+                                      </label>
+                                      <input type="email"required autocomplete="off" name="email" value="<s:property value="email" />"/>
+                                    </div> 
+                                    <s:if test="error == 'yes'">
+                                        <div class="error-login">
+                                            <p><i class="fa fa-exclamation-circle"></i> Não é possível atualizar os dados no momento!</p>
+                                        </div>
+                                    </s:if>
+                                    <s:if test="error == 'none'">
+                                        <div class="correct">
+                                            <p><i class="fa fa-exclamation-circle"></i> Os dados foram atualizados!</p>
+                                        </div>
+                                    </s:if>
+                                    <input type="submit"  class="button button-block" value="Atualizar Dados"/>
+                                    </s:form>
+                                </div>
                             </div>
+                <!-- FIM DA TAB DADOS --> 
                         </div>
-                              
-                    </div>
+
+                        <div class="tab-pane" id="changePass"></div>
+                    </div>  
+
                 </div>
             </div>
         </div>

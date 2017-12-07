@@ -14,12 +14,21 @@
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
         <link rel="stylesheet" href="css/style.css">
-        <title>Sign in | SMDrive</title>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <title>Entrar | SMDrive</title>
     </head>
     <body>
+        <s:if test="#session.firstName != null">
+            <% response.sendRedirect("files"); %>  
+        </s:if>
+        
+        <%@ include file= "views/nav.jsp" %>
+        
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
+   
                       <div class="form">    
                         <ul class="tab-group">
                           <li class="tab active"><a href="index.jsp">Login</a></li>
@@ -33,26 +42,35 @@
                             <form action="login" method="post">
 
                               <div class="field-wrap">
-                              <label>
-                                Email<span class="req">*</span>
-                              </label>
-                              <input type="email" required autocomplete="off" name="email"/>
-                            </div>
+                              <s:if test="error == 'wrongPass'">
+                                <label class="active">
+                                    Email<span class="req">*</span>
+                                </label>                             
+                                <input type="email" required autocomplete="off" name="email" value="<s:property value="email" />"/>
+                              </s:if>
+                              <s:else>
+                                <label>
+                                    Email<span class="req">*</span>
+                                </label>
+                                <input type="email" required autocomplete="off" name="email"/>
+                              </s:else>
+                              </div>
 
                             <div class="field-wrap">
                               <label>
                                 Senha<span class="req">*</span>
                               </label>
-                              <input type="password" required autocomplete="off" name="password"/>
+                              <input type="password" id="pass" required autocomplete="off" name="password"/>
+                              <i id="see-pass" class="fa fa-eye"></i>
                             </div>
-                            <s:if test="#error == 'no_email'">
+                            <s:if test="error == 'noEmail'">
                                 <div class="error-login">
-                                    <p>E-mail não cadastrado!</p>
+                                    <p><i class="fa fa-exclamation-circle"></i> E-mail não cadastrado!</p>
                                 </div>
                             </s:if>
-                            <s:if test="#error == 'wrong_pass'">
+                            <s:if test="error == 'wrongPass'">
                                 <div class="error-login">
-                                    <p>Senha incorreta!</p>
+                                    <p><i class="fa fa-exclamation-circle"></i> Senha incorreta!</p>
                                 </div>
                             </s:if>
                             <p class="forgot"><a href="#">Esqueceu a senha?</a></p>

@@ -2,10 +2,6 @@ package actions;
 
 import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
-import java.io.File;
-import java.io.UnsupportedEncodingException;
-import java.util.ArrayList;
-import java.util.List;
 
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
@@ -22,27 +18,29 @@ public class AccountAction extends ActionSupport {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
-     private String profile_img;
+    private String profile_img;
 
-    public String execute() throws UnsupportedEncodingException {       
-        //pega a requisição http do servlet
-        HttpServletRequest request = ServletActionContext.getRequest();
-        Map<String,Object> session = ActionContext.getContext().getSession();
-        
-        //Pega o usuario salvo na sessao
-        UsuarioDAO dao = new UsuarioDAO();
-        int id = (int) session.get("id");
-        Usuario u = dao.getUserById(id);    
+    public String execute() {      
+        try {
+            //pega a requisição http do servlet
+            HttpServletRequest request = ServletActionContext.getRequest();
+            Map<String,Object> session = ActionContext.getContext().getSession();
 
-        setFirstName(u.getFirstName());
-        setLastName(u.getLastName());
-        setFirstName(u.getFirstName());
-        setEmail(u.getEmail());
-        setPassword(u.getPassword());
-        setProfile_img(u.getProfile_img());
-                
-        return "sucess";
+            //Pega o usuario salvo na sessao
+            UsuarioDAO dao = new UsuarioDAO();
+            int id = (int) session.get("id");
+            Usuario u = dao.getUserById(id);    
+
+            setFirstName(u.getFirstName());
+            setLastName(u.getLastName());
+            setFirstName(u.getFirstName());
+            setEmail(u.getEmail());
+            setProfile_img(u.getProfile_img());
+            
+        } catch (Exception ex){
+            return "error";
+        }        
+        return "success";
     }
 
     public String getFirstName() {
@@ -69,14 +67,6 @@ public class AccountAction extends ActionSupport {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
     public String getProfile_img() {
         return profile_img;
     }
@@ -84,6 +74,5 @@ public class AccountAction extends ActionSupport {
     public void setProfile_img(String profile_img) {
         this.profile_img = profile_img;
     }
-    
-    
+
 }

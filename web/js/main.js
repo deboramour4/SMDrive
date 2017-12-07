@@ -22,7 +22,7 @@ $('.form, .form-modal').find('input, textarea').on('keyup blur focus', function 
         } else if( $this.val() !== '' ) {
             label.addClass('highlight');
         }
-    }
+    } 
 });
 
 $(document).ready(function(){
@@ -40,6 +40,17 @@ $(document).ready(function(){
         $('#see-pass').removeClass('fa-eye-slash').addClass('fa-eye');
         }
     );
+//See password in account edit
+    $('#see-pass2').hover(function() {
+        //Change the attribute to text
+        $('#pass2').attr('type', 'text');
+        $('#see-pass2').removeClass('fa-eye').addClass('fa-eye-slash');
+        }, function () {
+        $('#pass2').attr('type', 'password');
+        $('#see-pass2').removeClass('fa-eye-slash').addClass('fa-eye');
+        }
+    );
+    
 //Pretty file name in upload button 
    $("#upfile").change(function () {
         var path = this.value;
@@ -48,10 +59,10 @@ $(document).ready(function(){
     });  
     
 // Compartilhar arquivo
-    $("#shareFileBtn").click (function (){
-        var url = $('#shareFPath').attr('value')
-        alert(url)
+    $(".shareFileBtn").click (function (){
+        var url = $(this).siblings().attr('value')
         $("#shareFilePath").val(url)
+        $("#shareLocation").text(url)
     })
 });
 
@@ -69,14 +80,10 @@ function readURL(input) {
 //Right click context menu files and folders
 $(".file").bind("contextmenu",function(e){
   e.preventDefault();
-  var url = ($(this).find('a').attr('href'))
-  var split = url.replace('?', '').split('=')
-  path = split[1]
-  var decodedPath = path.replace(/\+/g, ' ');
-  decodedPath = decodeURIComponent(decodedPath);
-  $("#deletePathFile").val(decodedPath)
-  $("#renamePathFolder").val(decodedPath)
-  $(".fileLocation").text(decodedPath)
+  var url = ($(this).find('.a').attr('value'))
+  $("#deletePathFile").val(url)
+  $("#renamePathFolder").val(url)
+  $(".fileLocation").text(url)
   console.log(path)
   //console.log(e.pageX + "," + e.pageY);
   $("#cntnr_file").css("left",e.pageX);
@@ -92,15 +99,10 @@ function startFocusOutFile(){
 }
 $(".folder").bind("contextmenu",function(e){
   e.preventDefault();
-  var url = ($(this).find('a').attr('href'))
-  var split = url.replace('?', '').split('=')
-  var path = split[1]
-  var decodedPath = path.replace(/\+/g, ' ');
-  decodedPath = decodeURIComponent(decodedPath);
-  $("#deletePathFolder").val(decodedPath)
-  $("#renamePathFolder").val(decodedPath)
-  $(".fileLocation").text(decodedPath)
-  console.log(path)
+  var url = $(this).find('.a').attr('value')
+  $("#deletePathFolder").val(url)
+  $("#renamePathFolder").val(url)
+  $(".fileLocation").text(url)
   $("#cntnr_folder").css("left",e.pageX);
   $("#cntnr_folder").css("top",e.pageY);        
   $("#cntnr_folder").fadeIn(200,startFocusOutFolder());      

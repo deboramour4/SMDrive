@@ -7,70 +7,105 @@
     <constant name="struts.devMode" value="true" />
     <constant name="struts.multipart.maxSize" value="53477376" />
     
-    <package name="default" extends="struts-default">
-
+    <package name="default"  namespace="/" extends="struts-default">
+          
+        <action name="*">
+            <result>404.jsp</result>
+        </action>
+        
         <action name="files" class="actions.FileExplorerAction">
-            <result name="sucess">explorer.jsp</result>
+            <result name="success">explorer.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        
+        <action name="shared" class="actions.SharedFileExplorerAction">
+            <result name="success">shared.jsp</result>
+            <result name="error">shared.jsp</result>
         </action>
         
         <action name="shareFolder" class="actions.ShareFolderAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="createFolder" class="actions.CreateFolderAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="deleteFile" class="actions.DeleteFileAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="deleteFolder" class="actions.DeleteFolderAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="renameFolder" class="actions.RenameFolderAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="account" class="actions.AccountAction">
-            <result name="sucess">account.jsp</result>
+            <result name="success">account.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        
+        <action name="password">
+            <result name="success">password.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        
+        <action name="settings" class="actions.SettingsAction">
+            <result name="success">settings.jsp</result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="updateAccount" class="actions.UpdateAccountAction">
-            <result name="sucess" type="redirectAction">account</result>
-            <result name="error">404.jsp</result>
+            <result name="success">account.jsp</result>
+            <result name="error">account.jsp</result>
+        </action>
+        
+        <action name="updatePassword" class="actions.UpdatePasswordAction">
+            <result name="success">password.jsp </result>
+            <result name="error">password.jsp</result>
         </action>
         
         <action name="logout" class="actions.LogoutAction">
-            <result name="sucess">index.jsp</result>
+            <result name="success">index.jsp</result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="deleteAccount" class="actions.DeleteUserAction">
-            <result name="sucess">index.jsp</result>
-            <result name="error" type="redirectAction">account</result>
+            <result name="success" type="redirectAction">logout</result>
+            <result name="error">error.jsp</result>
         </action>
         
         <action name="register" class="actions.SignUpAction">
-           <result name="sucess" type="redirectAction">files</result>
-           <result name="error">register.jsp</result>
+           <result name="success" type="redirectAction">files</result>
+           <result name="error" >register.jsp</result>
         </action>
         
        <action name="login" class="actions.LoginAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="no_email" >
-                <param name="location">404.jsp</param>
-                <param name="error">no_email</param>
-            </result>
-            <result name="wrong_pass" >
-                <param name="location">signup.jsp</param>
-                <param name="error">wrong_pass</param>
-            </result>
+            <result name="success" type="redirectAction">files</result>
+            <result name="error" >index.jsp</result>
         </action>
         
         <action name="download" class="actions.DownloadAction">
@@ -79,13 +114,25 @@
                 <param name="inputName">inputStream</param>
                 <param name="contentDisposition">attachment;filename="${fileName}"</param>
             </result>
-            <result name="error">/index.jsp</result>
+            <result name="error">error.jsp</result>
+        </action>
+        
+        <action name="downloadShared" class="actions.DownloadSharedAction">
+            <result name="success" type="stream">
+                <param name="contentType">application/octet-stream</param>
+                <param name="inputName">inputStream</param>
+                <param name="contentDisposition">attachment;filename="${fileName}"</param>
+            </result>
+            <result name="error">error.jsp</result>
         </action>
 
         <action name="upload" class="actions.UploadAction">
-            <result name="sucess" type="redirectAction">files</result>
-            <result name="profile_img">/index.jsp</result>
-            <result name="error">404.jsp</result>
+            <result name="success" type="redirectAction">
+                <param name="actionName">files</param>
+                <param name="path">${beforeFilePath}</param>
+            </result>
+            <result name="storageMax">error.jsp</result>
+            <result name="error">error.jsp</result>
         </action>
 
     </package>

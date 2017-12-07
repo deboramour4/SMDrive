@@ -17,32 +17,38 @@
         <link rel="stylesheet" href="css/style.css">
         <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
         <link rel="icon" href="img/favicon.ico" type="image/x-icon">
-        <title>Nao encontrado | SMDrive</title>
+        <title>Erro | SMDrive</title>
     </head>
     <body>
-
+        <s:if test="#session.firstName == null">
+            <%@ include file= "views/nosession.jsp" %>  
+        </s:if>
+        
+        <s:else>
         <s:if test="#session.firstName == null">
             <%@ include file= "views/nav.jsp" %> 
         </s:if>
         <s:else>
             <%@ include file= "views/navaccount.jsp" %> 
-        </s:else>                       
+        </s:else>           
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
-                    <h3 class="text-center"><i class="fa fa-exclamation-triangle"></i> Erro 404</h3>                  
+                    <% Random r = new Random(); 
+                      int errorN = r.nextInt(9)*101 ; %>
+                    <h3 class="text-center"><i class="fa fa-exclamation-triangle"></i> Erro <%= errorN %></h3>                  
                     <div class="form"> 
-                        <h6>Não encontramos o que você procura.<br>
-                            Tente novamente.</h6> <br>
+                        <h6>Infelizmente ocorreu um erro.<br>
+                            Tente novamente.</h6>
                         <a href="index.jsp" class="button button-block text-center">Voltar para o início</a> 
                     </div>
                 </div>
             </div>
         </div>
-        
         </div>
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
         <script src="js/main.js"></script>
+        </s:else>
     </body>
 </html>

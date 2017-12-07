@@ -19,44 +19,50 @@ public class UpdateAccountAction extends ActionSupport {
     private String firstName;
     private String lastName;
     private String email;
-    private String password;
     private String profile_img;
 
     private String filePath;
     private File fileUpload;
     private String fileUploadContentType;
     private String fileUploadFileName;
+    
+    private String error;
 
-    public String execute() throws Exception {       
-        //pega a requisição http do servlet
-        HttpServletRequest request = ServletActionContext.getRequest();
-        Map<String,Object> session = ActionContext.getContext().getSession();
-        
-        //Pega o usuario salvo na sessao
-        UsuarioDAO dao = new UsuarioDAO();
-        int id = (int) session.get("id");
-        Usuario u = dao.getUserById(id);   
-        
-        //Atualiza dos dados do usuario
-        u.setEmail(email);
-        u.setFirstName(firstName);
-        u.setLastName(lastName);
-        u.setPassword(password);
-        
-        filePath = request.getServletContext().getRealPath("/img/profile_imgs/"); 
-        
-        if (getFileUpload() != null) {
-            System.out.println("------- request path--------- "+filePath);
-            File fileToCreate = new File(filePath, getFileUploadFileName());
-            FileUtils.copyFile(fileUpload, fileToCreate);
-            u.setProfile_img("img/profile_imgs/"+getFileUploadFileName());           
+    public String execute() throws Exception {  
+        try {
+            //pega a requisição http do servlet
+            HttpServletRequest request = ServletActionContext.getRequest();
+            Map<String,Object> session = ActionContext.getContext().getSession();
+
+            //Pega o usuario salvo na sessao
+            UsuarioDAO dao = new UsuarioDAO();
+            int id = (int) session.get("id");
+            Usuario u = dao.getUserById(id);   
+
+            //Atualiza dos dados do usuario
+            u.setEmail(email);
+            u.setFirstName(firstName);
+            u.setLastName(lastName);
+
+            filePath = request.getServletContext().getRealPath("/img/profile_imgs/"); 
+
+            if (getFileUpload() != null) {
+                File fileToCreate = new File(filePath, getFileUploadFileName());
+                FileUtils.copyFile(fileUpload, fileToCreate);
+                u.setProfile_img("img/profile_imgs/"+getFileUploadFileName());           
+            }
+            session.put("firstName", u.getFirstName());
+            session.put("profile_img", u.getProfile_img());
+
+            dao.updateUser(u);
+            
+            error = "none";
+            return "success";
+
+        } catch (Exception ex) {
+             error = "yes";
+            return "error";
         }
-        session.put("firstName", u.getFirstName());
-        session.put("profile_img", u.getProfile_img());
-        
-        dao.updateUser(u);
-                
-        return "sucess";
     }
 
     public String getFirstName() {
@@ -81,14 +87,6 @@ public class UpdateAccountAction extends ActionSupport {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
     }
 
     public String getProfile_img() {
@@ -129,6 +127,14 @@ public class UpdateAccountAction extends ActionSupport {
 
     public void setFileUploadFileName(String fileUploadFileName) {
         this.fileUploadFileName = fileUploadFileName;
+    }
+
+    public String getError() {
+        return error;
+    }
+
+    public void setError(String error) {
+        this.error = error;
     }
     
 }

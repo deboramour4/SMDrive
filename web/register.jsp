@@ -13,9 +13,17 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css" integrity="sha384-/Y6pD6FV/Vv2HJnA6t+vslU6fwYXjCFtcEpHbNJ0lyAFsXTsjBbfaDjzALeQsN6M" crossorigin="anonymous">
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
         <link rel="stylesheet" href="css/style.css">
-        <title>Sign in | SMDrive</title>
+        <link rel="shortcut icon" href="img/favicon.ico" type="image/x-icon">
+        <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+        <title>Cadastro | SMDrive</title>
     </head>
     <body>
+        <s:if test="#session.firstName != null">
+            <% response.sendRedirect("files"); %>  
+        </s:if>
+        
+        <%@ include file= "views/nav.jsp" %>
+    
         <div class="container">
             <div class="row files">
                 <div class="col-sm-12">
@@ -32,38 +40,63 @@
                             <form action="register" method="post">
 
                             <div class="top-row">
-                              <div class="field-wrap">
-                                <label>
-                                  Nome<span class="req">*</span>
-                                </label>
-                                <input type="text" required autocomplete="off" name="firstName"/>
+                              <div class="field-wrap">       
+                                <s:if test="error == 'emailExists'">
+                                    <label class="active">
+                                      Nome<span class="req">*</span>
+                                    </label>
+                                    <input type="text" required autocomplete="off" name="firstName" value="<s:property value="firstName" />"/>
+                                </s:if> 
+                                <s:else>
+                                    <label>
+                                      Nome<span class="req">*</span>
+                                    </label>
+                                    <input type="text" required autocomplete="off" name="firstName"/>
+                                </s:else>
                               </div>
 
                               <div class="field-wrap">
-                                <label>
-                                  Sobrenome<span class="req">*</span>
-                                </label>
-                                <input type="text"required autocomplete="off" name="lastName"/>
+                                <s:if test="error == 'emailExists'">
+                                    <label class="active">
+                                      Sobrenome<span class="req">*</span>
+                                    </label>                                    
+                                    <input type="text"required autocomplete="off" name="lastName" value="<s:property value="lastName" />"/>
+                                </s:if>
+                                <s:else>
+                                    <label>
+                                      Sobrenome<span class="req">*</span>
+                                    </label>                                    
+                                    <input type="text"required autocomplete="off" name="lastName"/>
+                                </s:else>    
                               </div>
                             </div>
 
                             <div class="field-wrap">
-                              <label>
-                                Email<span class="req">*</span>
-                              </label>
-                              <input type="email"required autocomplete="off" name="email"/>
+                                <s:if test="error == 'emailExists'">
+                                    <label class="active">
+                                        Email<span class="req">*</span>
+                                    </label>                                
+                                    <input type="email"required autocomplete="off" name="email" value="<s:property value="email" />"/>
+                                </s:if>
+                                <s:else>
+                                    <label>
+                                        Email<span class="req">*</span>
+                                    </label>                                    
+                                    <input type="email"required autocomplete="off" name="email"/>
+                                </s:else>
                             </div>
 
                             <div class="field-wrap">
-                              <label>
-                                Senha<span class="req">*</span>
-                              </label>
-                              <input type="password"required autocomplete="off" name="password"/>
+                                <label>
+                                    Senha<span class="req">*</span>
+                                </label>
+                                <input id="pass" type="password" required autocomplete="off" name="password" minlength="6"/>
+                                <i id="see-pass" class="fa fa-eye"></i>
                             </div>
                             
-                            <s:if test="#error == 'email'">
-                                <div class="field-wrap delete-account">
-                                    <p data-toggle="modal">Já existe uma conta com este email <span class="fa fa-exclamation-triangle"></span></p>
+                            <s:if test="error == 'emailExists'">
+                                <div class="error-login">
+                                    <p><i class="fa fa-exclamation-circle"></i> Já existe uma conta com este email</p>
                                 </div>
                             </s:if>                         
 

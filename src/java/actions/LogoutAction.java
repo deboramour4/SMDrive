@@ -10,10 +10,14 @@ import java.util.Map;
  */
 public class LogoutAction extends ActionSupport {
       
-    public String execute() {       
-        Map<String,Object> session = ActionContext.getContext().getSession();
-        session.clear();
-        return "sucess";  
+    public String execute() {
+        try {
+            Map<String,Object> session = ActionContext.getContext().getSession();
+            session.clear();
+            return "success";  
+        } catch (Exception ex) {
+            return "error";
+        }
     }
    
 }

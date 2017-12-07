@@ -113,6 +113,24 @@ public class SharingDAO {
         }
     }
     
+    public List<Sharing> getShareByUserOwner(int user_owner){
+        Session session = util.HibernateUtil.getSession();
+        
+        Query query = session.createQuery("from Sharing where user_owner = :user_owner");
+        query.setParameter("user_owner", user_owner);
+        List<Sharing> s = query.list();
+        
+        session.close();
+        
+        if (s.size() == 0 ) {
+            System.out.println("Compartilhamento NÃO EXISTE");
+            return null; 
+        } else {
+            System.out.println("Compartilahmento EXISTE");
+            return s;
+        }
+    }
+    
     public List<Sharing> getAllSharing () {
         Session session = util.HibernateUtil.getSession();
         Query query = session.createQuery("from Sharing");

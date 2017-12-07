@@ -15,12 +15,13 @@ import org.apache.struts2.ServletActionContext;
  *
  * @author Débora
  */
-public class DownloadAction extends ActionSupport {
+public class DownloadSharedAction extends ActionSupport {
     
     public String fileName;
     public String filePath;
     public InputStream inputStream;
     public String user_dir;
+    public String ownerId;
     
     public String execute() throws Exception {
         try {
@@ -30,8 +31,8 @@ public class DownloadAction extends ActionSupport {
 
             //Pega o usuario salvo na sessao
             UsuarioDAO dao = new UsuarioDAO();
-            int id = (int) session.get("id");
-            Usuario u = dao.getUserById(id);    
+            Usuario u = dao.getUserById(Integer.parseInt(ownerId));
+                      
 
             //checa se já existe um path 
             if (filePath != null) {
@@ -70,6 +71,22 @@ public class DownloadAction extends ActionSupport {
 
     public void setInputStream(InputStream inputStream) {
         this.inputStream = inputStream;
+    }
+
+    public String getUser_dir() {
+        return user_dir;
+    }
+
+    public void setUser_dir(String user_dir) {
+        this.user_dir = user_dir;
+    }
+
+    public String getOwnerId() {
+        return ownerId;
+    }
+
+    public void setOwnerId(String ownerId) {
+        this.ownerId = ownerId;
     }
     
         

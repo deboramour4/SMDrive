@@ -4,10 +4,9 @@ import com.opensymphony.xwork2.ActionContext;
 import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import java.security.MessageDigest;
 import model.Usuario;
 import model.UsuarioDAO;
 import org.apache.struts2.ServletActionContext;
@@ -25,46 +24,58 @@ public class SignUpAction extends ActionSupport {
     private String error;
     
 
-    public String execute() {       
-        //Pesquisa o usuario no banco
-        UsuarioDAO dao = new UsuarioDAO();
-        Usuario tmp = dao.getUserByEmail(email);
-        
-        if (tmp == null) {
-            //pega a requisição http do servlet
-            HttpServletRequest request = ServletActionContext.getRequest();
+    public String execute() {    
+        try {
+            //Pesquisa o usuario no banco
+            UsuarioDAO dao = new UsuarioDAO();
+            Usuario tmp = dao.getUserByEmail(email);
 
-            //Cria um novo usuario
-            Usuario usuario = new Usuario();
-            usuario.setFirstName(firstName);
-            usuario.setLastName(lastName);
-            usuario.setEmail(email);
-            usuario.setPassword(password);
-            usuario.setProfile_img("img/profile_imgs/default-avatar.png");
-            usuario.setDir("");
-                       
-            //Salva o usuário no banco
-            dao.saveUser(usuario);
-            String user_dir = "/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName();
-            dao.setUserDirById(user_dir, usuario.getId());
+            if (tmp == null) {
+                //pega a requisição http do servlet
+                HttpServletRequest request = ServletActionContext.getRequest();
 
-            //cria um novo diretorio para o usuario no servidor
-            String real_path_user = request.getServletContext().getRealPath(user_dir);            
-            File f = new File(real_path_user);
-            f.mkdir();
+                //Cria um novo usuario
+                Usuario usuario = new Usuario();
+                usuario.setFirstName(firstName);
+                usuario.setLastName(lastName);
+                usuario.setEmail(email);             
+                usuario.setProfile_img("img/profile_imgs/default-avatar.png");
+                usuario.setDir("");
+                
+                //Criptografando a senha
+                MessageDigest algorithm = MessageDigest.getInstance("SHA-256");
+                byte messageDigest[] = algorithm.digest(password.getBytes("UTF-8"));
+                StringBuilder hexString = new StringBuilder();
+                for (byte b : messageDigest) {
+                  hexString.append(String.format("%02X", 0xFF & b));
+                }
+                String cripPassword = hexString.toString();
+                usuario.setPassword(cripPassword);
+                
+                //Salva o usuário no banco
+                dao.saveUser(usuario);
+                String user_dir = "/WEB-INF/public/"+usuario.getId()+"_"+usuario.getFirstName();
+                dao.setUserDirById(user_dir, usuario.getId());
 
-            //salva o usuario na sessao
-            Map<String,Object> session = ActionContext.getContext().getSession();
-            Usuario user = dao.getUserByEmail(email);              
-            session.put("firstName", user.getFirstName());
-            session.put("profile_img", user.getProfile_img());
-            session.put("id", user.getId()); 
-            return "sucess";   
-        } else {
-            setError("email");
+                //cria um novo diretorio para o usuario no servidor
+                String real_path_user = request.getServletContext().getRealPath(user_dir);            
+                File f = new File(real_path_user);
+                f.mkdir();
+
+                //salva o usuario na sessao
+                Map<String,Object> session = ActionContext.getContext().getSession();
+                Usuario user = dao.getUserByEmail(email);              
+                session.put("firstName", user.getFirstName());
+                session.put("profile_img", user.getProfile_img());
+                session.put("id", user.getId()); 
+                return "success";   
+            } else {
+                error = "emailExists";
+                return "error";
+            }
+        } catch (Exception ex) {
             return "error";
         }
-        
        
     }
 

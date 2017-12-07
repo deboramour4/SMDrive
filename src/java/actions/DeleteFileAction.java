@@ -5,8 +5,11 @@ import com.opensymphony.xwork2.ActionSupport;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.UnsupportedEncodingException;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpServletRequest;
+import model.Sharing;
+import model.SharingDAO;
 import model.Usuario;
 import model.UsuarioDAO;
 import org.apache.struts2.ServletActionContext;
@@ -17,37 +20,47 @@ import org.apache.struts2.ServletActionContext;
  */
 public class DeleteFileAction extends ActionSupport {
     
+    private String beforeFilePath;
     private long storage;
     private String filePath;
+    private String relativeFilePath;
 
     public String execute() throws UnsupportedEncodingException {
-        //pega a requisição http do servlet
-        HttpServletRequest request = ServletActionContext.getRequest();
-        Map<String,Object> session = ActionContext.getContext().getSession();
-        
-        //Pega o usuario salvo na sessao
-        UsuarioDAO dao = new UsuarioDAO();
-        int id = (int) session.get("id");
-        Usuario u = dao.getUserById(id);    
-
         try {
+            //pega a requisição http do servlet
+            HttpServletRequest request = ServletActionContext.getRequest();
+            Map<String,Object> session = ActionContext.getContext().getSession();
+
+            //Pega o usuario salvo na sessao
+            UsuarioDAO dao = new UsuarioDAO();
+            int id = (int) session.get("id");
+            Usuario u = dao.getUserById(id);  
+            
+            SharingDAO sDAO = new SharingDAO();
+            List<Sharing> sharedList = sDAO.getShareByPath(filePath);
+       
             //checa se já existe um path 
             if (filePath != null) {
+                relativeFilePath = filePath;
                 filePath = request.getServletContext().getRealPath(u.getDir()+filePath);
-                System.out.println(filePath+" -- delete file ------------------ -------------------------");
-                File folderDelete = new File(filePath);
-                storage = u.getStorage();
-                System.out.println(storage+" -- storage u.getStorage ------------------ -------------------------"); 
                 
+                if (sharedList != null) {
+                    for (Sharing s : sharedList) {
+                        if (s.getUser_owner() == id && s.getPath().equals(relativeFilePath)) {
+                            sDAO.deleteShare(s);
+                        }
+                    }
+                }
+                
+                File folderDelete = new File(filePath);     
+                storage = u.getStorage();            
                 storage = storage - folderDelete.length(); 
                 
                 folderDelete.delete();
-           
-                System.out.println(storage+" -- stprage depois de deletar------------------ -------------------------");
                 u.setStorage(storage);               
                 dao.updateUser(u);
                 
-                return "sucess";               
+                return "success";               
             }            
             return "error";
         } catch (Exception ex) {
@@ -70,5 +83,21 @@ public class DeleteFileAction extends ActionSupport {
     public void setStorage(long storage) {
         this.storage = storage;
     }
-  
+
+    public String getBeforeFilePath() {
+        return beforeFilePath;
+    }
+
+    public void setBeforeFilePath(String beforeFilePath) {
+        this.beforeFilePath = beforeFilePath;
+    }
+
+    public String getRelativeFilePath() {
+        return relativeFilePath;
+    }
+
+    public void setRelativeFilePath(String relativeFilePath) {
+        this.relativeFilePath = relativeFilePath;
+    }
+    
 }

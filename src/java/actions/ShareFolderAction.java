@@ -19,27 +19,23 @@ import org.apache.struts2.ServletActionContext;
  */
 public class ShareFolderAction extends ActionSupport {
     
+    private String beforeFilePath;
     private String path;
     private String emailShare;
 
     public String execute() throws UnsupportedEncodingException {
-        //pega a requisição http do servlet
-        HttpServletRequest request = ServletActionContext.getRequest();
-        Map<String,Object> session = ActionContext.getContext().getSession();
-        
-        //Pega o usuario salvo na sessao
-        UsuarioDAO dao = new UsuarioDAO();
-        int id = (int) session.get("id");
-        Usuario u = dao.getUserById(id);    
-
         try {
+            //pega a requisição http do servlet
+            HttpServletRequest request = ServletActionContext.getRequest();
+            Map<String,Object> session = ActionContext.getContext().getSession();
+
+            //Pega o usuario salvo na sessao
+            UsuarioDAO dao = new UsuarioDAO();
+            int id = (int) session.get("id");
+            Usuario u = dao.getUserById(id);    
+
             if (path != null) {
-                path = (u.getDir()+path); //caminho da pasta a ser compartilhada
-                
-                System.out.println(emailShare+" -- EMAIL SHARE ------------------ -------------------------");
                 Usuario u_share = dao.getUserByEmail(emailShare);
-                
-                System.out.println(u_share.getFirstName()+" -- FIRST NAME EMAIL SHARE ------------------ -------------------------");
                 
                 Sharing share = new Sharing();
                 SharingDAO sDAO = new SharingDAO();
@@ -48,12 +44,8 @@ public class ShareFolderAction extends ActionSupport {
                 share.setUser_owner(id);
                 share.setUser_share(u_share.getId());
 
-                System.out.println(share.getPath()+" -- EMAIL SHARE ------------------ -------------------------");
-                System.out.println(share.getUser_owner()+" -- EMAIL SHARE ------------------ -------------------------");
-                System.out.println(share.getUser_share()+" -- EMAIL SHARE ------------------ -------------------------");
-
                 sDAO.saveShare(share);
-                return "sucess";            
+                return "success";            
             }            
             return "error";
         } catch (Exception ex) {
@@ -75,6 +67,14 @@ public class ShareFolderAction extends ActionSupport {
 
     public void setEmailShare(String emailShare) {
         this.emailShare = emailShare;
+    }
+
+    public String getBeforeFilePath() {
+        return beforeFilePath;
+    }
+
+    public void setBeforeFilePath(String beforeFilePath) {
+        this.beforeFilePath = beforeFilePath;
     }
     
 }
